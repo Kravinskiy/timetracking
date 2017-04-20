@@ -18,23 +18,71 @@
 
   <div class="col-sm-12">
 
-    <table class="table table-striped">
+    <table class="table table-striped table-responsive">
       <thead>
         <tr>
           <th>#</th>
           <th>Project Name</th>
           <th>Created At</th>
-          <th>Total Spent Hours</th>
+          <th>Total Spent Time</th>
+          <th>Status</th>
           <th>Actions</th>
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="(key, project) in user.projects">
+        <tr ng-repeat="(key, project) in projects">
           <th scope="row">{{key}}</th>
           <td>{{project.name}}</td>
           <td>{{project.created_at}}</td>
           <td>{{project.hours}}</td>
-          <td><a ui-sref="myAccount.projects{id: project.id}"></a></td>
+          <td>
+            <i class="fa fa-spinner text-primary" ng-if="project.status" uib-tooltip="The timer is running"></i>
+            <i class="fa fa-pause text-muted" ng-if="!project.status" uib-tooltip="You are not working on the project now"></i>
+            <i class="fa fa-check text-success" ng-if="!project.active" uib-tooltip="The project has been completed"></i>
+          </td>
+          <td>
+            <div class="btn-group" uib-dropdown>
+             <button id="split-button" type="button" ng-if="!project.status || project.active == false" ng-disabled="project.active" ng-click="startProject(project.id)" class="btn btn-success">Start</button>
+             <button id="split-button" ng-if="project.status" type="button" ng-click="pauseProject(project.id)" class="btn btn-primary">Pause</button>
+             <button type="button" class="btn" ng-class="{'btn-primary' : project.status, 'btn-success' : !project.status}" uib-dropdown-toggle>
+               <span class="caret"></span>
+             </button>
+             <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
+               <li role="menuitem">
+                 <a ng-click="deactivateProject(project.id)">Mark as Completed</a>
+               </li>
+             </ul>
+           </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <hr />
+
+  </div>
+
+  <div class="col-sm-12 mt-3">
+
+    <table class="table table-responsive">
+      <thead>
+        <tr>
+          <th>Indicator</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><i class="fa fa-spinner text-primary" aria-hidden="true"></i></td>
+          <td>You are working on the project, and the clock is ticking.</td>
+        </tr>
+        <tr>
+          <td><i class="fa fa-pause text-muted" aria-hidden="true"></i></td>
+          <td>You are currently not working on the project, waiting for the start.</td>
+        </tr>
+        <tr>
+          <td><i class="fa fa-check text-success" aria-hidden="true"></i></td>
+          <td>The project is completed, and you can not start the timer again.</td>
         </tr>
       </tbody>
     </table>
@@ -55,7 +103,7 @@
       <div class="form-group">
 
         <label>Project Name</label>
-        <input class="form-control" name="projectname" placeholder="For example: Zoe's restaurant" ng-model="form.projectname" />
+        <input class="form-control" name="projectname" placeholder="For example: Zoe's restaurant" ng-model="form.name" />
 
       </div>
 
@@ -63,7 +111,7 @@
 
   </div>
   <div class="modal-footer">
-    <button class="btn btn-secondary" type="button" ng-click="closeThisDialog()">Cancel</button>
+    <button class="btn btn-default" type="button" ng-click="dialog.close()">Cancel</button>
     <button class="btn btn-primary" type="button" ng-click="submit()">Create</button>
   </div>
 </script>

@@ -31,6 +31,8 @@ function MainCtrl($scope,$http,$state){
 
 function LoginCtrl($scope,$http, $state, toaster){
 
+	$scope.form = {};
+
 	$scope.login = function(valid){
 
 		if (!valid)
@@ -53,9 +55,9 @@ function LoginCtrl($scope,$http, $state, toaster){
 
 function SignupCtrl($scope,$http,toaster,$state){
 
-	$scope.signUp = function(valid){
+	$scope.form = {};
 
-		console.log("asd");
+	$scope.signUp = function(valid){
 
 		if (!valid)
 			return false;
@@ -80,11 +82,14 @@ function SignupCtrl($scope,$http,toaster,$state){
 
 }
 
-function MyDashboardCtrl($scope, ngDialog){
+function MyDashboardCtrl($scope, $http, toaster, $uibModal){
+
+	$scope.form = {};
 
 	$scope.createProject = function(){
-		$scope.dialog = ngDialog.open({
-			template: "editProject.html"
+		$scope.dialog =  $uibModal.open({
+			templateUrl: 'editProject.html',
+			scope: $scope,
 		});
 	};
 
@@ -100,8 +105,9 @@ function MyDashboardCtrl($scope, ngDialog){
 				toaster.pop({ type: 'error', title: "Error!", body: data.errors});
 			else{
 
+				$scope.form = {};
 				$scope.dialog.close();
-				$scope.refreshProject();
+				$scope.refreshProjects();
 
 			}
 		});
@@ -123,6 +129,8 @@ function MyDashboardCtrl($scope, ngDialog){
 }
 
 function MySettingsCtrl($scope,$http,toaster){
+
+	$scope.form = {};
 
 	$scope.changePassword = function(valid){
 

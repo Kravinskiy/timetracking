@@ -64,17 +64,6 @@ function config($stateProvider, $urlRouterProvider, $locationProvider,$ocLazyLoa
     url: "/dashboard/",
     templateUrl: "backend/angular.php?type=view&include=myAccount/dashboard",
     controller: "MyDashboardCtrl",
-    resolve: {
-      loadPlugin: function ($ocLazyLoad) {
-        return $ocLazyLoad.load([
-        {
-          serie: true,
-          name: 'ngDialog',
-          files: ['view/js/ngDialog.min.js','view/css/ngDialog.min.css', "view/css/ngDialog-template.css"]
-        }
-        ])
-      }
-    }
   }).state('myAccount.settings', {
     url: "/settings",
     templateUrl: "backend/angular.php?type=view&include=myAccount/settings",
@@ -89,5 +78,6 @@ function config($stateProvider, $urlRouterProvider, $locationProvider,$ocLazyLoa
 angular.module('timetracking', [
     'ui.router',
     'oc.lazyLoad',
-    'ngResource'
+    'ngResource',
+    'ui.bootstrap'
   ]).config(config);

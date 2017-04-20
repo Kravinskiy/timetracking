@@ -12,7 +12,8 @@
       "signup" => array("notUser"),
       "users" => array("everyone"),
       "home" => array("everyone"),
-      "settings" => array("user")
+      "settings" => array("user"),
+      "projects" => array("user")
     );
 
     public static function init(){

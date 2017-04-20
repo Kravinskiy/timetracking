@@ -1,5 +1,6 @@
 <toaster-container toaster-options="{'close-button': true}"></toaster-container>
-<div class="col-xs-12">
+<div class="row">
+  <div class="col-sm-12">
 
   <h4>Sign Up</h4>
 
@@ -8,13 +9,13 @@
     <div class="row">
       <div class="col-md-6">
 
-        <div class="form-group" ng-class="{ 'has-danger' : signUpForm.email.$invalid && !signUpForm.email.$pristine }">
+        <div class="form-group" ng-class="{ 'has-error' : signUpForm.email.$invalid && !signUpForm.email.$pristine }">
           <label>E-mail Address</label>
           <input type="email" name="email" ng-model="form.email" class="form-control" required />
           <div class="help-block" ng-show="signUpForm.email.$invalid && !signUpForm.email.$pristine">The e-mail address is invalid!</div>
         </div>
 
-        <div class="form-group" ng-class="{ 'has-danger' : signUpForm.password.$invalid && !signUpForm.password.$pristine }">
+        <div class="form-group" ng-class="{ 'has-error' : signUpForm.password.$invalid && !signUpForm.password.$pristine }">
           <label>Password</label>
           <input type="password" name="password" ng-minlength="5" ng-model="form.password" class="form-control" required/>
           <p ng-show="signUpForm.password.$error.minlength" class="help-block">Too short. Minimum 5 characters.</p>
@@ -28,7 +29,7 @@
 
       <div class="col-md-6">
 
-        <div class="form-group" ng-class="{ 'has-danger' : signUpForm.fullname.$invalid && !signUpForm.fullname.$pristine }">
+        <div class="form-group" ng-class="{ 'has-error' : signUpForm.fullname.$invalid && !signUpForm.fullname.$pristine }">
           <label>Full Name</label>
           <input type="text" name="fullname" ng-minlength="3" ng-model="form.fullname" class="form-control" required />
           <p ng-show="signUpForm.fullname.$error.minlength" class="help-block">Full name is too short.</p>
@@ -39,5 +40,7 @@
     </div>
 
   </form>
+
+</div>
 
 </div>
