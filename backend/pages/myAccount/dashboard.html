@@ -1,0 +1,42 @@
+<toaster-container toaster-options="{'close-button': true}"></toaster-container>
+<div class="row m-t">
+  <div class="col-md-9">
+
+    <h4>Dashboard</h4>
+    <p>Here you can create projects, or manage your existing ones.</p>
+
+  </div>
+
+  <div class="col-md-3">
+
+    <button ng-click="createProject()" class="btn btn-lg btn-primary pull-right"> <i class="glyphicon glyphicon-plus"></i> Add Project</button>
+
+  </div>
+</div>
+
+<div class="row mt-3">
+
+  <div class="col-sm-12">
+
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Project Name</th>
+          <th>Created At</th>
+          <th>Total Spent Hours</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="(key, project) in user.projects">
+          <th scope="row">{{key}}</th>
+          <td>{{project.name}}</td>
+          <td>{{project.created_at}}</td>
+          <td>{{project.hours}}</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>

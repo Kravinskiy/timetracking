@@ -1,0 +1,64 @@
+
+<!DOCTYPE html>
+<html lang="en" ng-app="timetracking">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="Mark Kravinskiy">
+
+    <title>Time Tracking Application</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <link rel="stylesheet" href="view/css/style.css">
+  </head>
+
+  <body>
+
+    <div class="container" ng-controller="MainCtrl">
+
+      <div class="header clearfix">
+        <nav>
+          <ul class="nav nav-pills float-right">
+            <li class="nav-item">
+              <a class="nav-link" ui-sref="home">Home</a>
+            </li>
+            <li class="nav-item" ng-if="user.uuid">
+              <a class="nav-link" ui-sref="myAccount.dashboard">Dashboard</a>
+            </li>
+            <li class="nav-item" ng-if="user.uuid">
+              <a class="nav-link" ui-sref="myAccount.settings">Settings</a>
+            </li>
+            <li class="nav-item" ng-if="user.uuid">
+              <a class="nav-link" ui-sref="myAccount.logout">Logout</a>
+            </li>
+            <li class="nav-item" ng-if="!user.uuid">
+              <a class="nav-link" ui-sref="login">Login</a>
+            </li>
+            <li class="nav-item" ng-if="!user.uuid">
+              <a class="nav-link" ui-sref="sign-up">Sign Up</a>
+            </li>
+          </ul>
+        </nav>
+        <h3 class="text-muted">Time Tracking V1.0</h3>
+      </div>
+
+      <div ui-view style="height:100%;"></div>
+
+      <footer class="footer">
+        <p>&copy; Mark Kravinskiy</p>
+      </footer>
+
+    </div> <!-- /container -->
+  </body>
+
+  <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+
+  <script src="view/js/ngResource.js"></script>
+  <script src="view/js/ui.router.js"></script>
+  <script src="view/js/oc.lazyLoad.js"></script>
+  <script src="view/js/config.js"></script>
+  <script src="view/js/controller.js"></script>
+</html>
