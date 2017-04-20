@@ -80,7 +80,45 @@ function SignupCtrl($scope,$http,toaster,$state){
 
 }
 
-function MyDashboardCtrl($scope){
+function MyDashboardCtrl($scope, ngDialog){
+
+	$scope.createProject = function(){
+		$scope.dialog = ngDialog.open({
+			template: "editProject.html"
+		});
+	};
+
+	$scope.submit = function(){
+
+		$http({
+	    method: 'POST',
+	    url: "backend/angular.php?type=php&include=Projects&function=newProject",
+	    data: $scope.form,
+		}).success(function(data) {
+
+			if (data.errors)
+				toaster.pop({ type: 'error', title: "Error!", body: data.errors});
+			else{
+
+				$scope.dialog.close();
+				$scope.refreshProject();
+
+			}
+		});
+
+	};
+
+	$scope.refreshProjects = function(){
+
+		$http.get("backend/angular.php?type=php&include=Projects&function=listProjects").success(function(data){
+
+			$scope.projects = data.data;
+
+		});
+
+	};
+
+	$scope.refreshProjects();
 
 }
 

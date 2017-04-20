@@ -34,9 +34,36 @@
           <td>{{project.name}}</td>
           <td>{{project.created_at}}</td>
           <td>{{project.hours}}</td>
+          <td><a ui-sref="myAccount.projects{id: project.id}"></a></td>
         </tr>
       </tbody>
     </table>
 
   </div>
 </div>
+
+<script type="text/ng-template" id="editProject.html">
+  <div class="modal-header">
+    <h3 class="modal-title" id="modal-title">
+      New Project
+    </h3>
+  </div>
+  <div class="modal-body" id="modal-body">
+
+    <form name="projectForm">
+
+      <div class="form-group">
+
+        <label>Project Name</label>
+        <input class="form-control" name="projectname" placeholder="For example: Zoe's restaurant" ng-model="form.projectname" />
+
+      </div>
+
+    </form>
+
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-secondary" type="button" ng-click="closeThisDialog()">Cancel</button>
+    <button class="btn btn-primary" type="button" ng-click="submit()">Create</button>
+  </div>
+</script>
