@@ -6,7 +6,7 @@
 
     public function listProjects(){
 
-      $stmt = Connection::connect()->prepare("SELECT projects.id as id, projects.name as name,to_char(projects.created_at, 'yyyy-mm-dd hh24:mi:ss') as created_at, projects.active as active, to_char(time_log.from, 'yyyy-mm-dd hh24:mi:ss') as timefrom,to_char(time_log.to, 'yyyy-mm-dd hh24:mi:ss') as timeto
+      $stmt = Connection::connect()->prepare("SELECT projects.id as id, projects.name as name,to_char(projects.created_at, 'yyyy-mm-dd hh24:mi:ss') as created_at, projects.active as active, to_char(time_log.from, 'yyyy-mm-dd hh24:mi:ss') as timefrom,to_char(time_log.to, 'yyyy-mm-dd hh24:mi:ss') as timeto, to_char(NOW(), 'yyyy-mm-dd hh24:mi:ss') as now
       FROM projects
       LEFT JOIN time_log ON time_log.project_id = projects.id
       WHERE projects.uuid = :uuid");
@@ -36,7 +36,7 @@
 
               if (empty($fetch["timeto"])){
                 $data[$fetch["id"]]["status"] = true;
-                $fetch["timeto"] = date("Y-m-d H:i:s");
+                $fetch["timeto"] = $fetch["now"];
               }
 
               $time = strtotime($fetch["timeto"]) - strtotime($fetch["timefrom"]);
