@@ -23,7 +23,7 @@ function MainCtrl($scope,$http,$state){
 
 	setInterval(function() {
 		$scope.loggedIn();
-	}, 5000);
+	}, 20000);
 
 	$scope.loggedIn();
 
