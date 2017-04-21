@@ -7,7 +7,7 @@
   <form name="signUpForm" novalidate role="form" autocomplete="off" ng-submit="signUp(signUpForm.$valid)">
 
     <div class="row">
-      <div class="col-md-6">
+      <div class="col-xs-12 col-sm-6">
 
         <div class="form-group" ng-class="{ 'has-error' : signUpForm.email.$invalid && !signUpForm.email.$pristine }">
           <label>E-mail Address</label>
@@ -21,13 +21,9 @@
           <p ng-show="signUpForm.password.$error.minlength" class="help-block">Too short. Minimum 5 characters.</p>
         </div>
 
-        <div class="form-group">
-          <button type="submit" class="btn btn-primary" ng-disabled="signUpForm.$invalid">Sign Up</button>
-        </div>
-
       </div>
 
-      <div class="col-md-6">
+      <div class="col-xs-12 col-sm-6">
 
         <div class="form-group" ng-class="{ 'has-error' : signUpForm.fullname.$invalid && !signUpForm.fullname.$pristine }">
           <label>Full Name</label>
@@ -35,6 +31,14 @@
           <p ng-show="signUpForm.fullname.$error.minlength" class="help-block">Full name is too short.</p>
         </div>
 
+
+      </div>
+
+      <div class="col-xs-12">
+
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary" ng-disabled="signUpForm.$invalid">Sign Up</button>
+        </div>
 
       </div>
     </div>

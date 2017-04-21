@@ -1,20 +1,20 @@
 <toaster-container toaster-options="{'close-button': true}"></toaster-container>
-<div class="row m-t">
-  <div class="col-md-9">
+<div class="row">
+  <div class="col-xs-12 col-sm-9">
 
     <h4>Dashboard</h4>
     <p>Here you can create projects, or manage your existing ones.</p>
 
   </div>
 
-  <div class="col-md-3">
+  <div class="col-xs-12 col-sm-3">
 
-    <button ng-click="createProject()" class="btn btn-lg btn-primary pull-right"> <i class="glyphicon glyphicon-plus"></i> Add Project</button>
+    <button ng-click="createProject()" class="btn btn-lg btn-primary"> <i class="glyphicon glyphicon-plus"></i> Add Project</button>
 
   </div>
 </div>
 
-<div class="row mt-3">
+<div class="row m-t">
 
   <div class="col-sm-12">
 
@@ -30,26 +30,29 @@
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="(key, project) in projects">
+        <tr ng-class="{'danger': !project.active}" ng-repeat="(key, project) in projects">
           <th scope="row">{{key}}</th>
           <td>{{project.name}}</td>
           <td>{{project.created_at}}</td>
-          <td>{{project.hours}}</td>
+          <td>{{project.hours}} hours, {{project.minutes}} minutes</td>
           <td>
             <i class="fa fa-spinner text-primary" ng-if="project.status" uib-tooltip="The timer is running"></i>
-            <i class="fa fa-pause text-muted" ng-if="!project.status" uib-tooltip="You are not working on the project now"></i>
+            <i class="fa fa-pause text-muted" ng-if="!project.status && project.active" uib-tooltip="You are not working on the project now"></i>
             <i class="fa fa-check text-success" ng-if="!project.active" uib-tooltip="The project has been completed"></i>
           </td>
           <td>
             <div class="btn-group" uib-dropdown>
-             <button id="split-button" type="button" ng-if="!project.status || project.active == false" ng-disabled="project.active" ng-click="startProject(project.id)" class="btn btn-success">Start</button>
+             <button id="split-button" type="button" ng-if="!project.status || project.active == false" ng-disabled="!project.active" ng-click="startProject(project.id)" class="btn btn-success">Start</button>
              <button id="split-button" ng-if="project.status" type="button" ng-click="pauseProject(project.id)" class="btn btn-primary">Pause</button>
-             <button type="button" class="btn" ng-class="{'btn-primary' : project.status, 'btn-success' : !project.status}" uib-dropdown-toggle>
+             <button type="button" class="btn" ng-class="{'btn-primary' : project.status, 'btn-success' : !project.status}" ng-disabled="!project.active" uib-dropdown-toggle>
                <span class="caret"></span>
              </button>
              <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
                <li role="menuitem">
-                 <a ng-click="deactivateProject(project.id)">Mark as Completed</a>
+                 <a mw-confirm-click="deactivateProject(project.id)" mw-confirm-click-message="Are you sure you wanna mark it as complated? This process is not undateable.">Mark As Completed</a>
+               </li>
+               <li role="menuitem">
+                 <a ng-click="checkLogs(project)">Check The Logs</a>
                </li>
              </ul>
            </div>
@@ -113,5 +116,36 @@
   <div class="modal-footer">
     <button class="btn btn-default" type="button" ng-click="dialog.close()">Cancel</button>
     <button class="btn btn-primary" type="button" ng-click="submit()">Create</button>
+  </div>
+</script>
+
+<script type="text/ng-template" id="checkLogs.html">
+  <div class="modal-header">
+    <h3 class="modal-title" id="modal-title">
+      {{data.name}}
+    </h3>
+  </div>
+  <div class="modal-body" id="modal-body">
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Started At</th>
+          <th>Paused At</th>
+          <th>Time Between</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="timelog in data.timelogs">
+          <td>{{timelog.from}}</td>
+          <td>{{timelog.to}}</td>
+          <td>{{timelog.hours}} hours, {{timelog.minutes}} minutes</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-default" type="button" ng-click="dialog.close()">Close</button>
   </div>
 </script>

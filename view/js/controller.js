@@ -124,7 +124,70 @@ function MyDashboardCtrl($scope, $http, toaster, $uibModal){
 
 	};
 
+	setInterval(function() {
+		$scope.refreshProjects();
+	}, 60000);
+
 	$scope.refreshProjects();
+
+	$scope.deactivateProject = function(projectid){
+
+		$http.get("backend/angular.php?type=php&include=Projects&function=deactivateProject&id="+projectid).success(function(data){
+
+			if (data.errors)
+				toaster.pop({ type: 'error', title: "Error!", body: data.errors});
+			else{
+
+				$scope.refreshProjects();
+
+			}
+
+		});
+
+	};
+
+	$scope.pauseProject = function(projectid){
+
+		$http.get("backend/angular.php?type=php&include=Projects&function=pauseProject&id="+projectid).success(function(data){
+
+			if (data.errors)
+				toaster.pop({ type: 'error', title: "Error!", body: data.errors});
+			else{
+
+				$scope.refreshProjects();
+
+			}
+
+		});
+
+	};
+
+	$scope.startProject = function(projectid){
+
+		$http.get("backend/angular.php?type=php&include=Projects&function=startProject&id="+projectid).success(function(data){
+
+			if (data.errors)
+				toaster.pop({ type: 'error', title: "Error!", body: data.errors});
+			else{
+
+				$scope.refreshProjects();
+
+			}
+
+		});
+
+	};
+
+	$scope.checkLogs = function(project){
+
+		$scope.data = project;
+
+		$scope.dialog = $uibModal.open({
+			templateUrl: "checkLogs.html",
+			scope: $scope
+		});
+
+	};
 
 }
 
