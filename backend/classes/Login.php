@@ -1,10 +1,11 @@
 <?php
 
-  use System\Connection as Connection;
+  namespace Classes;
+  use \System\Connection as Connection;
 
   class Login{
 
-    public function Login(){
+    public function LoginFunction(){
 
       checkReqFields(array("email","password"),$_POST);
 

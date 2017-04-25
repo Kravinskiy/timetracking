@@ -38,7 +38,7 @@ function LoginCtrl($scope,$http, $state, toaster){
 		if (!valid)
 			return false;
 
-		$http.post("backend/angular.php?type=php&include=Login&function=login", $scope.form).success(function(data){
+		$http.post("backend/angular.php?type=php&include=Login&function=loginFunction", $scope.form).success(function(data){
 
 			if (data.errors)
 				toaster.pop({ type: 'error', title: "Error!", body: data.errors});

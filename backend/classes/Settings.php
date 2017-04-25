@@ -1,6 +1,7 @@
 <?php
 
-  use System\Connection as Connection;
+  namespace Classes;
+  use \System\Connection as Connection;
 
   class Settings{
 

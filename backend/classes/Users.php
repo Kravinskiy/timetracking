@@ -1,6 +1,7 @@
 <?php
 
-  use System\Connection as Connection;
+  namespace Classes;
+  use \System\Connection as Connection;
 
   class Users{
 
@@ -30,9 +31,9 @@
         $stmt->execute($tobe);
 
         if ($stmt->rowCount() > 0)
-          return ($return) ? $stmt->fetch(PDO::FETCH_ASSOC) : true;
+          return ($return) ? $stmt->fetch(\PDO::FETCH_ASSOC) : true;
 
-      }catch (PDOException $e) {
+      }catch (\PDOException $e) {
         sqlError($e->getMessage());
       }
 
@@ -65,7 +66,7 @@
 
         if ($stmt->rowCount() > 0){
 
-          self::$myData = $stmt->fetch(PDO::FETCH_ASSOC);
+          self::$myData = $stmt->fetch(\PDO::FETCH_ASSOC);
 
           return true;
 
@@ -76,7 +77,7 @@
 
 
 
-      }catch(PDOException $e){
+      }catch(\PDOException $e){
         sqlError($e);
       }
 
@@ -95,7 +96,7 @@
           $stmt->bindValue(2, $_SESSION["uuid"]);
           $stmt->execute();
 
-        }catch(PDOException $e){
+        }catch(\PDOException $e){
           sqlError($e);
         }
 

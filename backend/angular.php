@@ -1,7 +1,11 @@
 <?php
 
+	ini_set("display_errors", "1");
+	error_reporting(E_ALL);
+	ini_set('error_reporting', E_ALL);
+
 	session_start();
-	include_once("autoloader.php");
+	require_once("../vendor/autoload.php");
 
 	$handle = null;
 
@@ -15,13 +19,14 @@
   if (!empty($_GET["function"]))
     $_GET["function"] = clean($_GET["function"]);
 
-  $_GET["include"] = SYSTEM\Security::checkInclude($_GET["include"]);
+  $_GET["include"] = System\Security::checkInclude($_GET["include"]);
 
 	if ($_GET["type"] == "view" && file_exists("pages/".$_GET["include"].".html"))
 		$handle = file_get_contents("pages/".$_GET["include"].".html");
-	elseif($_GET["type"] == "php" && file_exists("classes/".$_GET["include"] . ".class.php") && !empty($_GET["function"])){
+	elseif($_GET["type"] == "php" && file_exists("classes/".$_GET["include"] . ".php") && !empty($_GET["function"])){
 
-		$class = new $_GET["include"]();
+		$className = "Classes\\".$_GET["include"];
+		$class = new $className;
 		$handle = $class->$_GET["function"]();
 
 	}

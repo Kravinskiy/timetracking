@@ -20,8 +20,8 @@
 
       if (empty(self::$roleTypes)){
         self::$roleTypes = array(
-          "user" => \Users::loggedIn(false),
-          "notUser" => !\Users::loggedIn(false),
+          "user" => \Classes\Users::loggedIn(false),
+          "notUser" => !\Classes\Users::loggedIn(false),
           "everyone" => true,
         );
       }

@@ -1,1 +1,16 @@
-{}
+{
+  "type": "project",
+  "require": {
+    "php": "^5.5.9|^7.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Classes\\": "backend/classes",
+      "System\\": "backend/system"
+    },
+    "files": [
+      "backend/system/_defines.php",
+      "backend/functions.php"
+    ]
+  }
+}

@@ -1,6 +1,7 @@
 <?php
 
-  use System\Connection as Connection;
+  namespace Classes;
+  use \System\Connection as Connection;
 
   class Projects{
 
@@ -18,7 +19,7 @@
 
         $data = array();
 
-        while ($fetch = $stmt->fetch(PDO::FETCH_ASSOC)){
+        while ($fetch = $stmt->fetch(\PDO::FETCH_ASSOC)){
 
           if (!isset($data[$fetch["id"]]))
             $data[$fetch["id"]] = array(
@@ -58,7 +59,7 @@
 
         return array("data" => $data);
 
-      }catch(PDOException $e){
+      }catch(\PDOException $e){
         sqlError($e);
       }
 
@@ -77,7 +78,7 @@
         $stmt->execute();
 
 
-      }catch(PDOException $e){
+      }catch(\PDOException $e){
         sqlError($e);
       }
 
@@ -92,7 +93,7 @@
         $stmt->bindValue(":projectid", $projectid);
         $stmt->execute();
 
-      }catch(PDOException $e){
+      }catch(\PDOException $e){
         sqlError($e);
       }
 
@@ -111,7 +112,7 @@
         if ($stmt->rowCount() > 0)
           return true;
 
-      }catch(PDOException $e){
+      }catch(\PDOException $e){
         sqlError($e);
       }
 
@@ -136,7 +137,7 @@
         $stmt->bindValue(":projectid", $projectid);
         $stmt->execute();
 
-      }catch(PDOException $e){
+      }catch(\PDOException $e){
         sqlError($e);
       }
 
@@ -159,7 +160,7 @@
         $stmt->bindValue(":projectid", $projectid);
         $stmt->execute();
 
-      }catch(PDOException $e){
+      }catch(\PDOException $e){
         sqlError($e);
       }
 
@@ -181,7 +182,7 @@
         $stmt->bindValue(":projectid", $projectid);
         $stmt->execute();
 
-      }catch(PDOException $e){
+      }catch(\PDOException $e){
         sqlError($e);
       }
 

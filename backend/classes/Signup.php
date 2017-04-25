@@ -1,6 +1,7 @@
 <?php
 
-  use System\Connection as Connection;
+  namespace Classes;
+  use \System\Connection as Connection;
 
   class Signup{
 
@@ -22,15 +23,15 @@
 
         try{
 
-          $stmt->bindValue(1, $_POST['fullname'], PDO::PARAM_STR);
-          $stmt->bindValue(2, $_POST['email'], PDO::PARAM_STR);
-          $stmt->bindValue(3, sha1($_POST['password']), PDO::PARAM_STR);
+          $stmt->bindValue(1, $_POST['fullname'], \PDO::PARAM_STR);
+          $stmt->bindValue(2, $_POST['email'], \PDO::PARAM_STR);
+          $stmt->bindValue(3, sha1($_POST['password']), \PDO::PARAM_STR);
           $stmt->execute();
 
 
           Users::createNewAuthenticate(false,Connection::connect()->lastInsertId());
 
-        } catch(PDOException $e) {
+        } catch(\PDOException $e) {
           sqlError($e->getMessage());
         }
 
