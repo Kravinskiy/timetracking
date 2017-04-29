@@ -10,12 +10,6 @@ Time Tracking is an application made for freelancers who would like to keep trac
 3. Import the SQL Tables from the included SQL file. Don't forget to attach the database to a user (default: timetracking)
 4. Open Up the application in your browser, and enjoy.
 
-# Demo
-
-http://timetrackingdev.azurewebsites.net/
-
-(Due the Azure Trial Package, it is possible that the page or the modules are loading in slower than expected)
-
 # Developed by
 
 Mark Kravinskiy
