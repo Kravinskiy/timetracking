@@ -1,12 +1,25 @@
 <?php
 
-  namespace Classes;
-  use \System\Connection as Connection;
+namespace Classes\Controller;
+use Classes\Service\Connection;
 
-  class Users{
+/**
+ * Class Users
+ * @package Classes\Controller
+ */
+
+class Users {
 
     public static $myData;
 
+	/**
+	 * Checking if the user data exists
+	 *
+	 * @param $what
+	 * @param $tobe
+	 * @param bool $return
+	 * @return bool
+	 */
     public static function userDataExists($what,$tobe, $return = false){
 
       if (!is_array($what) && !is_array($tobe)){
@@ -41,6 +54,14 @@
 
     }
 
+	/**
+	 * Authenticate a user
+	 *
+	 * @param $uuid
+	 * @param bool $id
+	 *
+	 * @todo Put it inside of a service class
+	 */
     public static function createNewAuthenticate($uuid, $id = false){
 
       if (!$uuid)
@@ -54,6 +75,13 @@
 
     }
 
+	/**
+	 * Check if the authentication is correct
+	 *
+	 * @return bool
+	 *
+	 * @todo Put it inside of a service class
+	 */
     public static function checkAuth(){
 
       $stmt = Connection::connect()->prepare("SELECT uuid,email,name FROM users WHERE uuid = :uuid AND authcode = :authcode LIMIT 1");
@@ -83,6 +111,12 @@
 
     }
 
+	/**
+	 * Update a user's data
+	 *
+	 * @param $what
+	 * @param $to
+	 */
     public static function update($what, $to){
 
       if(isset($_SESSION["uuid"])){
@@ -104,12 +138,24 @@
 
     }
 
+
+	/**
+	 * Logging out the user
+	 */
     public static function logout(){
 
       session_destroy();
 
     }
 
+	/**
+	 * Checking if the user is logged in
+	 *
+	 * @param bool $array
+	 * @return bool|string
+	 *
+	 * @todo Put it inside of a service class
+	 */
     public static function loggedIn($array = true){
 
       if (self::checkAuth())
@@ -119,6 +165,4 @@
 
     }
 
-  }
-
-?>
+ }

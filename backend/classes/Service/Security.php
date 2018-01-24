@@ -1,8 +1,15 @@
 <?php
 
-  namespace System;
+namespace Classes\Service;
+use Classes\Controller\Users;
+use Classes\Utility\GeneralUtility;
 
-  class Security{
+/**
+ * Class Security
+ * @package Classes\Service
+ */
+
+class Security{
 
     private static $roleTypes = array();
     private static $myRoles = array();
@@ -16,12 +23,15 @@
       "projects" => array("user")
     );
 
+	/**
+	 * Initalize the class
+	 */
     public static function init(){
 
       if (empty(self::$roleTypes)){
         self::$roleTypes = array(
-          "user" => \Classes\Users::loggedIn(false),
-          "notUser" => !\Classes\Users::loggedIn(false),
+          "user" => Users::loggedIn(false),
+          "notUser" => !Users::loggedIn(false),
           "everyone" => true,
         );
       }
@@ -33,6 +43,13 @@
 
     }
 
+	/**
+     * Magic function on static calls
+     *
+	 * @param $name
+	 * @param $arguments
+	 * @return mixed
+	 */
     public static function __callStatic($name, $arguments){
 
       self::init();
@@ -42,10 +59,15 @@
     }
 
 
-
+	/**
+     * Permission check
+     *
+	 * @param $array
+	 * @return string
+	 */
     private static function checkInclude($array){
 
-      $include = clean(strtolower(explode("/", $array[0])[0]));
+      $include = GeneralUtility::cleanString(strtolower(explode("/", $array[0])[0]));
 
       if (isset(self::$modules[$include])){
 
@@ -61,5 +83,3 @@
     }
 
   }
-
-?>

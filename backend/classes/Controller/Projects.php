@@ -1,25 +1,37 @@
 <?php
 
-  namespace Classes;
-  use \System\Connection as Connection;
 
-  class Projects{
+namespace Classes\Controller;
+use Classes\Service\Connection;
+use Classes\Utility\GeneralUtility;
 
-    public function listProjects(){
+/**
+ * Class Projects
+ * @package Classes\Controller
+ */
+
+class Projects {
+
+	/**
+	 * Listing all the projects under a user
+	 *
+	 * @return array
+	 */
+    public function listProjects() {
 
       $stmt = Connection::connect()->prepare("SELECT projects.id as id, projects.name as name,to_char(projects.created_at, 'yyyy-mm-dd hh24:mi:ss') as created_at, projects.active as active, to_char(time_log.from, 'yyyy-mm-dd hh24:mi:ss') as timefrom,to_char(time_log.to, 'yyyy-mm-dd hh24:mi:ss') as timeto, to_char(NOW(), 'yyyy-mm-dd hh24:mi:ss') as now
       FROM projects
       LEFT JOIN time_log ON time_log.project_id = projects.id
       WHERE projects.uuid = :uuid");
 
-      try{
+      try {
 
         $stmt->bindValue(":uuid", $_SESSION["uuid"]);
         $stmt->execute();
 
         $data = array();
 
-        while ($fetch = $stmt->fetch(\PDO::FETCH_ASSOC)){
+        while ($fetch = $stmt->fetch(\PDO::FETCH_ASSOC)) {
 
           if (!isset($data[$fetch["id"]]))
             $data[$fetch["id"]] = array(
@@ -33,9 +45,9 @@
               "minutes" => 0
             );
 
-            if (!empty($fetch["timefrom"])){
+            if (!empty($fetch["timefrom"])) {
 
-              if (empty($fetch["timeto"])){
+              if (empty($fetch["timeto"])) {
                 $data[$fetch["id"]]["status"] = true;
                 $fetch["timeto"] = $fetch["now"];
               }
@@ -59,51 +71,65 @@
 
         return array("data" => $data);
 
-      }catch(\PDOException $e){
+      }catch(\PDOException $e) {
         sqlError($e);
       }
 
     }
 
-    public function newProject(){
+	/**
+	 * Creating a new project
+	 */
+    public function newProject() {
 
-      checkReqFields(array("name"),$_POST);
+      GeneralUtility::checkReqFields(array("name"),$_POST);
 
       $stmt = Connection::connect()->prepare("INSERT INTO projects (name, uuid, created_at) VALUES (:name,:uuid,NOW())");
 
-      try{
+      try {
 
         $stmt->bindValue(":name", $_POST["name"]);
         $stmt->bindValue(":uuid", $_SESSION["uuid"]);
         $stmt->execute();
 
 
-      }catch(\PDOException $e){
+      } catch(\PDOException $e) {
         sqlError($e);
       }
 
     }
 
-    public function getStatus($projectid){
+	/**
+	 * Getting the status of a project
+	 *
+	 * @param $projectid
+	 */
+    public function getStatus($projectid) {
 
       $stmt = Connection::connect()->prepare("SELECT 'from', 'to' FROM time_log WHERE project_id = :projectid ORDER BY id DESC");
 
-      try{
+      try {
 
         $stmt->bindValue(":projectid", $projectid);
         $stmt->execute();
 
-      }catch(\PDOException $e){
+      } catch(\PDOException $e) {
         sqlError($e);
       }
 
     }
 
-    private static function projectAccess($projectid){
+	/**
+	 * Checking if a user has access for the project
+	 *
+	 * @param $projectid
+	 * @return bool
+	 */
+    private static function projectAccess($projectid) {
 
       $stmt = Connection::connect()->prepare("SELECT uuid FROM projects WHERE id = :projectid AND uuid = :uuid AND active = true");
 
-      try{
+      try {
 
         $stmt->bindValue(":projectid", $projectid);
         $stmt->bindValue(":uuid", $_SESSION["uuid"]);
@@ -112,7 +138,7 @@
         if ($stmt->rowCount() > 0)
           return true;
 
-      }catch(\PDOException $e){
+      } catch(\PDOException $e) {
         sqlError($e);
       }
 
@@ -120,74 +146,87 @@
 
     }
 
-    public static function pauseProject($projectid = NULL){
+	/**
+	 * Breaking the project
+	 *
+	 * @param null $projectid
+	 */
+    public static function pauseProject($projectid = NULL) {
 
       if ($projectid == NULL && !empty($_GET["id"]))
         $projectid = $_GET["id"];
       elseif(empty($_GET["id"]))
-        kill("Project id is required.");
+        GeneralUtility::kill("Project id is required.");
 
       if (!self::projectAccess($projectid))
-        kill("Request denied.");
+        GeneralUtility::kill("Request denied.");
 
       $stmt = Connection::connect()->prepare('UPDATE time_log SET "to" = NOW() WHERE "to" IS NULL AND project_id = :projectid');
 
-      try{
+      try {
 
         $stmt->bindValue(":projectid", $projectid);
         $stmt->execute();
 
-      }catch(\PDOException $e){
+      } catch(\PDOException $e) {
         sqlError($e);
       }
 
     }
 
+	/**
+	 * Starting the project
+	 *
+	 * @param null $projectid
+	 */
     public static function startProject($projectid = NULL){
 
       if ($projectid == NULL && !empty($_GET["id"]))
         $projectid = $_GET["id"];
       elseif(empty($_GET["id"]))
-        kill("Project id is required.");
+        GeneralUtility::kill("Project id is required.");
 
       if (!self::projectAccess($projectid))
-        kill("Request denied.");
+        GeneralUtility::kill("Request denied.");
 
       $stmt = Connection::connect()->prepare('INSERT INTO time_log (project_id, "from") VALUES (:projectid, NOW())');
 
-      try{
+      try {
 
         $stmt->bindValue(":projectid", $projectid);
         $stmt->execute();
 
-      }catch(\PDOException $e){
+      } catch(\PDOException $e) {
         sqlError($e);
       }
 
     }
 
-    public function deactivateProject($projectid = NULL){
+	/**
+	 * Disabling / deactivating the project
+	 *
+	 * @param null $projectid
+	 */
+    public function deactivateProject($projectid = NULL) {
 
       if ($projectid == NULL && !empty($_GET["id"]))
         $projectid = $_GET["id"];
       elseif(empty($_GET["id"]))
-        kill("Project id is required.");
+        GeneralUtility::kill("Project id is required.");
 
       self::pauseProject($projectid);
 
       $stmt = Connection::connect()->prepare("UPDATE projects SET active = false WHERE id = :projectid");
 
-      try{
+      try {
 
         $stmt->bindValue(":projectid", $projectid);
         $stmt->execute();
 
-      }catch(\PDOException $e){
+      } catch(\PDOException $e) {
         sqlError($e);
       }
 
     }
 
-  }
-
-?>
+}

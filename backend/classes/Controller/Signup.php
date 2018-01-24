@@ -1,27 +1,36 @@
 <?php
 
-  namespace Classes;
-  use \System\Connection as Connection;
+namespace Classes\Controller;
+use Classes\Service\Connection as Connection;
+use Classes\Utility\GeneralUtility;
 
-  class Signup{
+/**
+ * Class Signup
+ * @package Classes\Controller
+ */
 
-    public function signupSQL(){
+class Signup {
 
-      checkReqFields(array("fullname","email","password"),$_POST);
+	/**
+	 * The actual signing up
+	 */
+    public function signupSQL() {
+
+      GeneralUtility::heckReqFields(array("fullname","email","password"),$_POST);
 
       if (!validEmail($_POST["email"]))
-        kill("The e-mail is not valid!");
+        GeneralUtility::kill("The e-mail is not valid!");
 
       if (Users::userDataExists("email",$_POST["email"]))
-        kill("A user with this e-mail address has already been registered!");
+        GeneralUtility::kill("A user with this e-mail address has already been registered!");
       else{
 
         if(strlen($_POST["password"]) < 5)
-          kill("Password must be at least 5 characters!");
+          GeneralUtility::kill("Password must be at least 5 characters!");
 
         $stmt = Connection::connect()->prepare('INSERT INTO users (name, email, password, last_login) VALUES (?,?,?,NOW())');
 
-        try{
+        try {
 
           $stmt->bindValue(1, $_POST['fullname'], \PDO::PARAM_STR);
           $stmt->bindValue(2, $_POST['email'], \PDO::PARAM_STR);
@@ -41,6 +50,4 @@
     }
 
 
-  }
-
-?>
+}
