@@ -1,11 +1,16 @@
 <?php
 
-  namespace Classes;
-  use \System\Connection as Connection;
+namespace Classes\Controller;
+use Classes\Service\Connection as Connection;
 
-  class Signup{
+/**
+ * Class Signup
+ * @package Classes\Controller
+ */
 
-    public function signupSQL(){
+class Signup {
+
+    public function signupSQL() {
 
       checkReqFields(array("fullname","email","password"),$_POST);
 
@@ -21,7 +26,7 @@
 
         $stmt = Connection::connect()->prepare('INSERT INTO users (name, email, password, last_login) VALUES (?,?,?,NOW())');
 
-        try{
+        try {
 
           $stmt->bindValue(1, $_POST['fullname'], \PDO::PARAM_STR);
           $stmt->bindValue(2, $_POST['email'], \PDO::PARAM_STR);
@@ -41,6 +46,4 @@
     }
 
 
-  }
-
-?>
+}

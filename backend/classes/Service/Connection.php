@@ -1,11 +1,21 @@
 <?php
 
-  namespace System;
+namespace Classes\Service;
 
-  class Connection{
+/**
+ * Class Connection
+ * @package Classes\Service
+ */
+
+class Connection{
 
     private static $con;
 
+	/**
+	 * Estabilishing the database connection
+	 *
+	 * @return mixed
+	 */
     public static function connect(){
 
       if (empty(static::$con)) {
@@ -19,6 +29,4 @@
 
     }
 
-  }
-
-?>
+}

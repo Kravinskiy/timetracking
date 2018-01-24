@@ -5,12 +5,10 @@
   },
   "autoload": {
     "psr-4": {
-      "Classes\\": "backend/classes",
-      "System\\": "backend/system"
+      "Classes\\": "backend/classes/"
     },
     "files": [
-      "backend/system/_defines.php",
-      "backend/functions.php"
+      "setup/_defines.php"
     ]
   }
 }

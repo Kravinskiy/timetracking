@@ -1,6 +1,6 @@
 <?php
 
-  //SQL Connection Defines
+  // SQL Connection data
 
   define("PDO_DATABASE","timetracking");
   define("PDO_USER","timetracking");

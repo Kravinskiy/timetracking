@@ -1,11 +1,18 @@
 <?php
 
-  namespace Classes;
-  use \System\Connection as Connection;
+namespace Classes\Controller;
 
-  class Settings{
+/**
+ * Class Settings
+ * @package Classes\Controller
+ */
 
-    public function changePassword(){
+class Settings {
+
+	/**
+	 * Changing the password of the current session
+	 */
+    public function changePassword() {
 
       checkReqFields(array("password","password_again"),$_POST);
 
@@ -16,6 +23,4 @@
 
     }
 
-  }
-
-?>
+}

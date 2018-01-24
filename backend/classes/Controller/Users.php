@@ -1,9 +1,14 @@
 <?php
 
-  namespace Classes;
-  use \System\Connection as Connection;
+namespace Classes\Controller;
+use Classes\Service\Connection;
 
-  class Users{
+/**
+ * Class Users
+ * @package Classes\Controller
+ */
+
+class Users {
 
     public static $myData;
 
@@ -119,6 +124,4 @@
 
     }
 
-  }
-
-?>
+ }
