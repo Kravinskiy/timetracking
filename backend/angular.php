@@ -30,5 +30,3 @@
 		echo json_encode($handle);
 	else
 		echo $handle;
-
-?>
