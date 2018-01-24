@@ -3,6 +3,7 @@
 
 namespace Classes\Controller;
 use Classes\Service\Connection;
+use Classes\Utility\GeneralUtility;
 
 /**
  * Class Projects
@@ -81,7 +82,7 @@ class Projects {
 	 */
     public function newProject() {
 
-      checkReqFields(array("name"),$_POST);
+      GeneralUtility::checkReqFields(array("name"),$_POST);
 
       $stmt = Connection::connect()->prepare("INSERT INTO projects (name, uuid, created_at) VALUES (:name,:uuid,NOW())");
 
@@ -155,10 +156,10 @@ class Projects {
       if ($projectid == NULL && !empty($_GET["id"]))
         $projectid = $_GET["id"];
       elseif(empty($_GET["id"]))
-        kill("Project id is required.");
+        GeneralUtility::kill("Project id is required.");
 
       if (!self::projectAccess($projectid))
-        kill("Request denied.");
+        GeneralUtility::kill("Request denied.");
 
       $stmt = Connection::connect()->prepare('UPDATE time_log SET "to" = NOW() WHERE "to" IS NULL AND project_id = :projectid');
 
@@ -183,10 +184,10 @@ class Projects {
       if ($projectid == NULL && !empty($_GET["id"]))
         $projectid = $_GET["id"];
       elseif(empty($_GET["id"]))
-        kill("Project id is required.");
+        GeneralUtility::kill("Project id is required.");
 
       if (!self::projectAccess($projectid))
-        kill("Request denied.");
+        GeneralUtility::kill("Request denied.");
 
       $stmt = Connection::connect()->prepare('INSERT INTO time_log (project_id, "from") VALUES (:projectid, NOW())');
 
@@ -211,7 +212,7 @@ class Projects {
       if ($projectid == NULL && !empty($_GET["id"]))
         $projectid = $_GET["id"];
       elseif(empty($_GET["id"]))
-        kill("Project id is required.");
+        GeneralUtility::kill("Project id is required.");
 
       self::pauseProject($projectid);
 

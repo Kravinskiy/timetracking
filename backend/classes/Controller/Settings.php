@@ -1,6 +1,7 @@
 <?php
 
 namespace Classes\Controller;
+use Classes\Utility\GeneralUtility;
 
 /**
  * Class Settings
@@ -14,10 +15,10 @@ class Settings {
 	 */
     public function changePassword() {
 
-      checkReqFields(array("password","password_again"),$_POST);
+      GeneralUtility::checkReqFields(array("password","password_again"),$_POST);
 
       if ($_POST["password"] !== $_POST["password_again"])
-        kill("The passwords don't match!");
+        GeneralUtility::kill("The passwords don't match!");
 
       Users::update("password", sha1($_POST["password"]));
 
