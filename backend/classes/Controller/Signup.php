@@ -11,6 +11,9 @@ use Classes\Utility\GeneralUtility;
 
 class Signup {
 
+	/**
+	 * The actual signing up
+	 */
     public function signupSQL() {
 
       GeneralUtility::heckReqFields(array("fullname","email","password"),$_POST);
