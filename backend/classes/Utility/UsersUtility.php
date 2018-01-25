@@ -1,13 +1,13 @@
 <?php
 
 namespace Classes\Utility;
+
 use Classes\Service\SqlConnectionService;
 
 /**
  * Class UsersUtility
  * @package Classes\Utility
  */
-
 class UsersUtility
 {
 
@@ -18,7 +18,8 @@ class UsersUtility
      *
      * @return array
      */
-    public static function getCurrentUser() {
+    public static function getCurrentUser()
+    {
         $stmt = SqlConnectionService::connect()->prepare("SELECT uuid,email,name FROM users WHERE uuid = :uuid AND authcode = :authcode LIMIT 1");
 
         if (!empty($_SESSION["uuid"]) && !empty($_SESSION["authcode"])) {
@@ -29,7 +30,7 @@ class UsersUtility
                 $stmt->bindParam(":authcode", $_SESSION["authcode"]);
                 $stmt->execute();
 
-                if ($stmt->rowCount() > 0){
+                if ($stmt->rowCount() > 0) {
 
                     $userData = $stmt->fetch(\PDO::FETCH_ASSOC);
 
@@ -38,7 +39,7 @@ class UsersUtility
 
                 }
 
-            }catch(\PDOException $e){
+            } catch (\PDOException $e) {
                 GeneralUtility::sqlError($e);
             }
 
@@ -55,9 +56,10 @@ class UsersUtility
      * @param bool $returnArray
      * @return bool
      */
-    public static function userDataExists($what,$tobe, $returnArray = false){
+    public static function userDataExists($what, $tobe, $returnArray = false)
+    {
 
-        if (!is_array($what) && !is_array($tobe)){
+        if (!is_array($what) && !is_array($tobe)) {
             $what = array($what);
             $tobe = array($tobe);
         }
@@ -65,23 +67,23 @@ class UsersUtility
         $sql = "SELECT uuid FROM users WHERE ";
         $count = 0;
 
-        foreach ($what as $item){
+        foreach ($what as $item) {
 
-            $sql .= $item . " = ? " . (($count+1 !== count($what)) ? "AND " : "");
+            $sql .= $item . " = ? " . (($count + 1 !== count($what)) ? "AND " : "");
             $count += 1;
 
         }
 
         $stmt = SqlConnectionService::connect()->prepare($sql);
 
-        try{
+        try {
 
             $stmt->execute($tobe);
 
             if ($stmt->rowCount() > 0)
                 return ($returnArray) ? $stmt->fetch(\PDO::FETCH_ASSOC) : true;
 
-        }catch (\PDOException $e) {
+        } catch (\PDOException $e) {
             GeneralUtility::sqlError($e->getMessage());
         }
 
@@ -95,20 +97,21 @@ class UsersUtility
      * @param $what
      * @param $to
      */
-    public static function update($what, $to){
+    public static function update($what, $to)
+    {
 
-        if(isset($_SESSION["uuid"])){
+        if (isset($_SESSION["uuid"])) {
 
             $stmt = SqlConnectionService::connect()->prepare(sprintf("UPDATE users SET %s = ? WHERE uuid = ?",
                 $what));
 
-            try{
+            try {
 
                 $stmt->bindParam(1, $to);
                 $stmt->bindValue(2, $_SESSION["uuid"]);
                 $stmt->execute();
 
-            }catch(\PDOException $e){
+            } catch (\PDOException $e) {
                 GeneralUtility::sqlError($e);
             }
 
@@ -120,7 +123,8 @@ class UsersUtility
      * @param null $what
      * @return mixed|null
      */
-    public static function getCurrentUserData($what = null) {
+    public static function getCurrentUserData($what = null)
+    {
 
         if (empty(self::$userData)) {
             self::getCurrentUser();
@@ -144,7 +148,8 @@ class UsersUtility
      *
      * @return array|bool
      */
-    public static function checkAuth() {
+    public static function checkAuth()
+    {
 
         $user = UsersUtility::getCurrentUser();
 

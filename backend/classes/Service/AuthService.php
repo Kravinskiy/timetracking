@@ -1,6 +1,7 @@
 <?php
 
 namespace Classes\Service;
+
 use Classes\Utility\GeneralUtility;
 use Classes\Utility\UsersUtility;
 
@@ -8,7 +9,6 @@ use Classes\Utility\UsersUtility;
  * Class AuthService
  * @package Classes\Service
  */
-
 class AuthService
 {
 
@@ -18,7 +18,8 @@ class AuthService
      * @param $uuid
      * @param bool $id
      */
-    public function createNewAuthenticate($uuid = null, $id = null){
+    public function createNewAuthenticate($uuid = null, $id = null)
+    {
 
         if (!$uuid) {
             $uuid = UsersUtility::userDataExists("id", $id, true)["uuid"];
@@ -35,7 +36,8 @@ class AuthService
     /**
      * Logging out the user
      */
-    public function logout(){
+    public function logout()
+    {
 
         session_destroy();
 
@@ -48,7 +50,8 @@ class AuthService
      * @return bool|string
      *
      */
-    public function loggedIn(){
+    public function loggedIn()
+    {
 
         return UsersUtility::checkAuth();
 

@@ -1,6 +1,7 @@
 <?php
 
 namespace Classes\Controller;
+
 use Classes\Service\AuthService;
 use Classes\Utility\UsersUtility;
 
@@ -8,8 +9,8 @@ use Classes\Utility\UsersUtility;
  * Class UsersController
  * @package Classes\Controller
  */
-
-class UsersController {
+class UsersController
+{
 
     public $myData;
     public $authService;
@@ -28,7 +29,8 @@ class UsersController {
      * @param $tobe
      * @return bool
      */
-    public function userDataExists($what,$tobe) {
+    public function userDataExists($what, $tobe)
+    {
         return UsersUtility::userDataExists($what, $tobe);
     }
 
@@ -37,7 +39,8 @@ class UsersController {
      * @param $to
      * @retun void
      */
-    public function update($what, $to) {
+    public function update($what, $to)
+    {
         UsersUtility::update($what, $to);
 
         return;
@@ -48,7 +51,8 @@ class UsersController {
      *
      * @return bool|string
      */
-    public function loggedIn() {
+    public function loggedIn()
+    {
         $loggedIn = $this->authService->loggedIn();
 
         if ($loggedIn !== false) {
@@ -59,8 +63,9 @@ class UsersController {
 
     }
 
-    public function logout() {
+    public function logout()
+    {
         $this->authService->logout();
     }
 
- }
+}

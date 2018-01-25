@@ -1,6 +1,7 @@
 <?php
 
 namespace Classes\Service;
+
 use Classes\Controller\UsersController;
 use Classes\Utility\GeneralUtility;
 use Classes\Utility\UsersUtility;
@@ -9,8 +10,8 @@ use Classes\Utility\UsersUtility;
  * Class SecurityService
  * @package Classes\Service
  */
-
-class SecurityService{
+class SecurityService
+{
 
     private static $roleTypes = array();
     private static $myRoles = array();
@@ -24,12 +25,13 @@ class SecurityService{
         "projects" => array("user")
     );
 
-	/**
-	 * Initalize the class
-	 */
-    public static function init() {
+    /**
+     * Initalize the class
+     */
+    public static function init()
+    {
 
-        if (empty(self::$roleTypes)){
+        if (empty(self::$roleTypes)) {
             self::$roleTypes = array(
                 "user" => !empty(UsersUtility::checkAuth()) ? true : false,
                 "notUser" => !UsersUtility::checkAuth(),
@@ -43,26 +45,27 @@ class SecurityService{
     }
 
 
-	/**
+    /**
      * Permission check
      *
-	 * @param $include
-	 * @return string
-	 */
-    public static function checkInclude($include) {
+     * @param $include
+     * @return string
+     */
+    public static function checkInclude($include)
+    {
 
         self::init();
 
         $include = GeneralUtility::cleanString(strtolower($include));
 
         // In case it's a child page
-        $exploded =  explode("/", $include)[0];
+        $exploded = explode("/", $include)[0];
 
-         if (isset(self::$modules[$exploded])){
+        if (isset(self::$modules[$exploded])) {
 
-             foreach (self::$myRoles as $role){
-                 if (in_array($role, self::$modules[$exploded]))
-                  return $include;
+            foreach (self::$myRoles as $role) {
+                if (in_array($role, self::$modules[$exploded]))
+                    return $include;
             }
 
         }
@@ -71,4 +74,4 @@ class SecurityService{
 
     }
 
-  }
+}

@@ -1,70 +1,72 @@
-
 <!DOCTYPE html>
 <html lang="en" ng-app="timetracking">
-  <head>
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="author" content="Mark Kravinskiy">
 
     <title>Time Tracking Application</title>
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
     <link rel="stylesheet" href="view/css/style.css">
     <link rel="stylesheet" href="view/css/font-awesome.min.css">
-  </head>
+</head>
 
-  <body>
+<body>
 
-    <div class="container" ng-controller="MainCtrl">
+<div class="container" ng-controller="MainCtrl">
 
-      <div class="header clearfix">
+    <div class="header clearfix">
         <nav>
-          <ul class="nav nav-pills pull-right">
-            <li class="nav-item">
-              <a class="nav-link" ui-sref="home">Home</a>
-            </li>
-            <li class="nav-item" ng-if="user.uuid">
-              <a class="nav-link" ui-sref="myAccount.dashboard">Dashboard</a>
-            </li>
-            <li class="nav-item" ng-if="user.uuid">
-              <a class="nav-link" ui-sref="myAccount.settings">Settings</a>
-            </li>
-            <li class="nav-item" ng-if="user.uuid">
-              <a class="nav-link" ui-sref="myAccount.logout">Logout</a>
-            </li>
-            <li class="nav-item" ng-if="!user.uuid">
-              <a class="nav-link" ui-sref="login">Login</a>
-            </li>
-            <li class="nav-item" ng-if="!user.uuid">
-              <a class="nav-link" ui-sref="sign-up">Sign Up</a>
-            </li>
-          </ul>
+            <ul class="nav nav-pills pull-right">
+                <li class="nav-item">
+                    <a class="nav-link" ui-sref="home">Home</a>
+                </li>
+                <li class="nav-item" ng-if="user.uuid">
+                    <a class="nav-link" ui-sref="myAccount.dashboard">Dashboard</a>
+                </li>
+                <li class="nav-item" ng-if="user.uuid">
+                    <a class="nav-link" ui-sref="myAccount.settings">Settings</a>
+                </li>
+                <li class="nav-item" ng-if="user.uuid">
+                    <a class="nav-link" ui-sref="myAccount.logout">Logout</a>
+                </li>
+                <li class="nav-item" ng-if="!user.uuid">
+                    <a class="nav-link" ui-sref="login">Login</a>
+                </li>
+                <li class="nav-item" ng-if="!user.uuid">
+                    <a class="nav-link" ui-sref="sign-up">Sign Up</a>
+                </li>
+            </ul>
         </nav>
         <h3 class="text-muted">Time Tracking V1.0</h3>
-      </div>
+    </div>
 
-      <div ui-view style="height:100%;"></div>
+    <div ui-view style="height:100%;"></div>
 
-      <footer class="footer">
+    <footer class="footer">
         <p>&copy; Mark Kravinskiy</p>
-      </footer>
+    </footer>
 
-    </div> <!-- /container -->
-  </body>
+</div> <!-- /container -->
+</body>
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
 
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
-  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-animate.js"></script>
-  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-sanitize.js"></script>
-  <script src="view/js/ui-bootstrap-tpls-2.5.0.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-animate.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-sanitize.js"></script>
+<script src="view/js/ui-bootstrap-tpls-2.5.0.min.js"></script>
 
 
-  <script src="view/js/ngResource.js"></script>
-  <script src="view/js/ui.router.js"></script>
-  <script src="view/js/oc.lazyLoad.js"></script>
-  <script src="view/js/config.js"></script>
-  <script src="view/js/controller.js"></script>
+<script src="view/js/ngResource.js"></script>
+<script src="view/js/ui.router.js"></script>
+<script src="view/js/oc.lazyLoad.js"></script>
+<script src="view/js/config.js"></script>
+<script src="view/js/controller.js"></script>
 </html>
