@@ -1,6 +1,7 @@
 <?php
 
 namespace Classes\Controller;
+use Classes\Service\AuthService;
 use Classes\Utility\GeneralUtility;
 use Classes\Utility\UsersUtility;
 
@@ -11,6 +12,13 @@ use Classes\Utility\UsersUtility;
 
 class LoginController {
 
+    /**
+     * LoginController constructor.
+     */
+    public function __construct() {
+        $this->authService = new AuthService();
+    }
+
 	/**
 	 * User data check, then creating a new authenticate
 	 *
@@ -20,7 +28,7 @@ class LoginController {
 
 		GeneralUtility::checkReqFields(array("email","password"),$_POST);
 
-		if (!validEmail($_POST["email"])) {
+		if (!GeneralUtility::validEmail($_POST["email"])) {
             GeneralUtility::kill("The e-mail is not valid!");
         }
 
@@ -30,7 +38,7 @@ class LoginController {
             array($_POST["email"], sha1($_POST["password"])),
             true)
         ) {
-            UsersUtility::createNewAuthenticate($userDetails["uuid"]);
+            $this->authService->createNewAuthenticate($userDetails["uuid"]);
         } else {
             GeneralUtility::kill("Invalid e-mail and password combination!");
         }

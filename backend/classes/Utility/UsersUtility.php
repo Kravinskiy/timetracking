@@ -21,9 +21,9 @@ class UsersUtility
     public static function getCurrentUser() {
         $stmt = SqlConnectionService::connect()->prepare("SELECT uuid,email,name FROM users WHERE uuid = :uuid AND authcode = :authcode LIMIT 1");
 
-        if (!empty($_SESSION["uuid"]) && !empty($_SESION["authcode"])) {
+        if (!empty($_SESSION["uuid"]) && !empty($_SESSION["authcode"])) {
 
-            try{
+            try {
 
                 $stmt->bindParam(":uuid", $_SESSION["uuid"]);
                 $stmt->bindParam(":authcode", $_SESSION["authcode"]);
@@ -31,7 +31,7 @@ class UsersUtility
 
                 if ($stmt->rowCount() > 0){
 
-                    $userData = $stmt->fetch(\PDO::FETCH_ASSO);
+                    $userData = $stmt->fetch(\PDO::FETCH_ASSOC);
 
                     self::$userData = $userData;
                     return $userData;
@@ -79,7 +79,7 @@ class UsersUtility
             $stmt->execute($tobe);
 
             if ($stmt->rowCount() > 0)
-                return ($returnArray) ? $stmt->fetch(\PDO::FETCH_ASS) : true;
+                return ($returnArray) ? $stmt->fetch(\PDO::FETCH_ASSOC) : true;
 
         }catch (\PDOException $e) {
             GeneralUtility::sqlError($e->getMessage());

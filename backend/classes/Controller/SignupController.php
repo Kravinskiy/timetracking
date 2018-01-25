@@ -20,7 +20,7 @@ class SignupController {
 
       GeneralUtility::checkReqFields(array("fullname","email","password"),$_POST);
 
-      if (!validEmail($_POST["email"]))
+      if (!GeneralUtility::validEmail($_POST["email"]))
         GeneralUtility::kill("The e-mail is not valid!");
 
       if (UsersUtility::userDataExists("email",$_POST["email"]))
@@ -40,7 +40,7 @@ class SignupController {
           $stmt->execute();
 
           $authService = new AuthService();
-          $authService->createNewAuthenticate(false,ConnectionService::connect()->lastInsertId());
+          $authService->createNewAuthenticate(false,SqlConnectionService::connect()->lastInsertId());
 
         } catch(\PDOException $e) {
           GeneralUtility::sqlError($e->getMessage());

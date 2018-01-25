@@ -57,7 +57,7 @@ class GeneralUtility {
 	public static function sqlError($error){
 
 		error_log("SQL ERROR:" . $error);
-		kill("Error while processing the request, please try again later!" . $error);
+		GeneralUtility::kill("Error while processing the request, please try again later!" . $error);
 
 	}
 
@@ -81,5 +81,9 @@ class GeneralUtility {
 		$string = str_replace(' ', '-', $string);
 		return preg_replace('/[^A-Za-z0-9\/]/', '', $string);
 	}
+
+	public static function test() {
+	    return "asd";
+    }
 
 }

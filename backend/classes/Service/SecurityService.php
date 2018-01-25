@@ -15,47 +15,30 @@ class SecurityService{
     private static $roleTypes = array();
     private static $myRoles = array();
     private static $modules = array(
-      "myaccount" => array("user"),
-      "login" => array("notUser"),
-      "signup" => array("notUser"),
-      "users" => array("everyone"),
-      "home" => array("everyone"),
-      "settings" => array("user"),
-      "projects" => array("user")
+        "myaccount" => array("user"),
+        "login" => array("notUser"),
+        "signup" => array("notUser"),
+        "users" => array("everyone"),
+        "home" => array("everyone"),
+        "settings" => array("user"),
+        "projects" => array("user")
     );
 
 	/**
 	 * Initalize the class
 	 */
-    public static function init(){
+    public static function init() {
 
-      if (empty(self::$roleTypes)){
-        self::$roleTypes = array(
-          "user" => UsersUtility::checkAuth(),
-          "notUser" => !UsersUtility::checkAuth(),
-          "everyone" => true,
-        );
-      }
+        if (empty(self::$roleTypes)){
+            self::$roleTypes = array(
+                "user" => !empty(UsersUtility::checkAuth()) ? true : false,
+                "notUser" => !UsersUtility::checkAuth(),
+                "everyone" => true,
+            );
+        }
 
-      if (empty(self::$myRoles))
-        self::$myRoles = array_keys(self::$roleTypes, true);
-
-
-
-    }
-
-	/**
-     * Magic function on static calls
-     *
-	 * @param $name
-	 * @param $arguments
-	 * @return mixed
-	 */
-    public static function __callStatic($name, $arguments){
-
-      self::init();
-
-      return self::$name($arguments);
+        if (empty(self::$myRoles))
+            self::$myRoles = array_keys(self::$roleTypes, true);
 
     }
 
@@ -63,23 +46,28 @@ class SecurityService{
 	/**
      * Permission check
      *
-	 * @param $array
+	 * @param $include
 	 * @return string
 	 */
-    private static function checkInclude($array){
+    public static function checkInclude($include) {
 
-      $include = GeneralUtility::cleanString(strtolower(explode("/", $array[0])[0]));
+        self::init();
 
-      if (isset(self::$modules[$include])){
+        $include = GeneralUtility::cleanString(strtolower($include));
 
-        foreach (self::$myRoles as $role){
-          if (in_array($role, self::$modules[$include]))
-            return GeneralUtility::cleanString($array[0]);
+        // In case it's a child page
+        $exploded =  explode("/", $include)[0];
+
+         if (isset(self::$modules[$exploded])){
+
+             foreach (self::$myRoles as $role){
+                 if (in_array($role, self::$modules[$exploded]))
+                  return $include;
+            }
+
         }
 
-      }
-
-      return "home";
+        return "home";
 
     }
 

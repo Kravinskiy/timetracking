@@ -49,14 +49,18 @@ class UsersController {
      * @return bool|string
      */
     public function loggedIn() {
-        $loggedIn = AuthService::loggedIn();
+        $loggedIn = $this->authService->loggedIn();
 
-        if ($loggedIn) {
+        if ($loggedIn !== false) {
             return json_encode(array("loggedin" => true, "data" => UsersUtility::getCurrentUser()));
         } else {
             return json_encode(array("loggedin" => false));
         }
 
+    }
+
+    public function logout() {
+        $this->authService->logout();
     }
 
  }
