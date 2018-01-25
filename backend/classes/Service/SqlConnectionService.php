@@ -3,11 +3,11 @@
 namespace Classes\Service;
 
 /**
- * Class Connection
+ * Class SqlConnectionService
  * @package Classes\Service
  */
 
-class Connection{
+class SqlConnectionService{
 
     private static $con;
 

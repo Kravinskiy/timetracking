@@ -1,15 +1,16 @@
 <?php
 
 namespace Classes\Controller;
-use Classes\Service\Connection as Connection;
+use Classes\Service\SqlConnectionService as Connection;
 use Classes\Utility\GeneralUtility;
+use Classes\Utility\UsersUtility;
 
 /**
- * Class Signup
+ * Class SignupController
  * @package Classes\Controller
  */
 
-class Signup {
+class SignupController {
 
 	/**
 	 * The actual signing up
@@ -21,14 +22,14 @@ class Signup {
       if (!validEmail($_POST["email"]))
         GeneralUtility::kill("The e-mail is not valid!");
 
-      if (Users::userDataExists("email",$_POST["email"]))
+      if (UsersController::userDataExists("email",$_POST["email"]))
         GeneralUtility::kill("A user with this e-mail address has already been registered!");
       else{
 
         if(strlen($_POST["password"]) < 5)
           GeneralUtility::kill("Password must be at least 5 characters!");
 
-        $stmt = Connection::connect()->prepare('INSERT INTO users (name, email, password, last_login) VALUES (?,?,?,NOW())');
+        $stmt = ConnectionService::connect()->prepare('INSERT INTO users (name, email, password, last_login) VALUES (?,?,?,NOW())');
 
         try {
 
@@ -38,7 +39,7 @@ class Signup {
           $stmt->execute();
 
 
-          Users::createNewAuthenticate(false,Connection::connect()->lastInsertId());
+          UsersUtility::createNewAuthenticate(false,ConnectionService::connect()->lastInsertId());
 
         } catch(\PDOException $e) {
           sqlError($e->getMessage());

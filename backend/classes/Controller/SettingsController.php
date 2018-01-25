@@ -2,13 +2,14 @@
 
 namespace Classes\Controller;
 use Classes\Utility\GeneralUtility;
+use Classes\Utility\UsersUtility;
 
 /**
- * Class Settings
+ * Class SettingsController
  * @package Classes\Controller
  */
 
-class Settings {
+class SettingsController {
 
 	/**
 	 * Changing the password of the current session
@@ -20,7 +21,7 @@ class Settings {
       if ($_POST["password"] !== $_POST["password_again"])
         GeneralUtility::kill("The passwords don't match!");
 
-      Users::update("password", sha1($_POST["password"]));
+      UsersUtility::update("password", sha1($_POST["password"]));
 
     }
 

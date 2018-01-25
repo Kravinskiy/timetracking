@@ -2,15 +2,15 @@
 
 
 namespace Classes\Controller;
-use Classes\Service\Connection;
+use Classes\Service\SqlConnectionService;
 use Classes\Utility\GeneralUtility;
 
 /**
- * Class Projects
+ * Class ProjectsController
  * @package Classes\Controller
  */
 
-class Projects {
+class ProjectsController {
 
 	/**
 	 * Listing all the projects under a user
@@ -19,7 +19,7 @@ class Projects {
 	 */
     public function listProjects() {
 
-      $stmt = Connection::connect()->prepare("SELECT projects.id as id, projects.name as name,to_char(projects.created_at, 'yyyy-mm-dd hh24:mi:ss') as created_at, projects.active as active, to_char(time_log.from, 'yyyy-mm-dd hh24:mi:ss') as timefrom,to_char(time_log.to, 'yyyy-mm-dd hh24:mi:ss') as timeto, to_char(NOW(), 'yyyy-mm-dd hh24:mi:ss') as now
+      $stmt = SqlConnectionService::connect()->prepare("SELECT projects.id as id, projects.name as name,to_char(projects.created_at, 'yyyy-mm-dd hh24:mi:ss') as created_at, projects.active as active, to_char(time_log.from, 'yyyy-mm-dd hh24:mi:ss') as timefrom,to_char(time_log.to, 'yyyy-mm-dd hh24:mi:ss') as timeto, to_char(NOW(), 'yyyy-mm-dd hh24:mi:ss') as now
       FROM projects
       LEFT JOIN time_log ON time_log.project_id = projects.id
       WHERE projects.uuid = :uuid");
@@ -84,7 +84,7 @@ class Projects {
 
       GeneralUtility::checkReqFields(array("name"),$_POST);
 
-      $stmt = Connection::connect()->prepare("INSERT INTO projects (name, uuid, created_at) VALUES (:name,:uuid,NOW())");
+      $stmt = SqlConnectionService::connect()->prepare("INSERT INTO projects (name, uuid, created_at) VALUES (:name,:uuid,NOW())");
 
       try {
 
@@ -106,7 +106,7 @@ class Projects {
 	 */
     public function getStatus($projectid) {
 
-      $stmt = Connection::connect()->prepare("SELECT 'from', 'to' FROM time_log WHERE project_id = :projectid ORDER BY id DESC");
+      $stmt = SqlConnectionService::connect()->prepare("SELECT 'from', 'to' FROM time_log WHERE project_id = :projectid ORDER BY id DESC");
 
       try {
 
@@ -127,7 +127,7 @@ class Projects {
 	 */
     private static function projectAccess($projectid) {
 
-      $stmt = Connection::connect()->prepare("SELECT uuid FROM projects WHERE id = :projectid AND uuid = :uuid AND active = true");
+      $stmt = SqlConnectionService::connect()->prepare("SELECT uuid FROM projects WHERE id = :projectid AND uuid = :uuid AND active = true");
 
       try {
 
@@ -161,7 +161,7 @@ class Projects {
       if (!self::projectAccess($projectid))
         GeneralUtility::kill("Request denied.");
 
-      $stmt = Connection::connect()->prepare('UPDATE time_log SET "to" = NOW() WHERE "to" IS NULL AND project_id = :projectid');
+      $stmt = SqlConnectionService::connect()->prepare('UPDATE time_log SET "to" = NOW() WHERE "to" IS NULL AND project_id = :projectid');
 
       try {
 
@@ -189,7 +189,7 @@ class Projects {
       if (!self::projectAccess($projectid))
         GeneralUtility::kill("Request denied.");
 
-      $stmt = Connection::connect()->prepare('INSERT INTO time_log (project_id, "from") VALUES (:projectid, NOW())');
+      $stmt = SqlConnectionService::connect()->prepare('INSERT INTO time_log (project_id, "from") VALUES (:projectid, NOW())');
 
       try {
 
@@ -216,7 +216,7 @@ class Projects {
 
       self::pauseProject($projectid);
 
-      $stmt = Connection::connect()->prepare("UPDATE projects SET active = false WHERE id = :projectid");
+      $stmt = SqlConnectionService::connect()->prepare("UPDATE projects SET active = false WHERE id = :projectid");
 
       try {
 

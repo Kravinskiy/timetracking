@@ -1,15 +1,16 @@
 <?php
 
 namespace Classes\Service;
-use Classes\Controller\Users;
+use Classes\Controller\UsersController;
 use Classes\Utility\GeneralUtility;
+use Classes\Utility\UsersUtility;
 
 /**
- * Class Security
+ * Class SecurityService
  * @package Classes\Service
  */
 
-class Security{
+class SecurityService{
 
     private static $roleTypes = array();
     private static $myRoles = array();
@@ -30,8 +31,8 @@ class Security{
 
       if (empty(self::$roleTypes)){
         self::$roleTypes = array(
-          "user" => Users::loggedIn(false),
-          "notUser" => !Users::loggedIn(false),
+          "user" => UsersUtility::checkAuth(),
+          "notUser" => !UsersUtility::checkAuth(),
           "everyone" => true,
         );
       }

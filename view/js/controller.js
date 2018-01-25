@@ -2,7 +2,7 @@ function MainCtrl($scope,$http,$state){
 
 	$scope.loggedIn = function(){
 
-		$http.get("backend/angular.php?type=php&include=Users&function=loggedIn").success(function(data){
+		$http.get("backend/angular.php?type=php&include=UsersController&function=loggedIn").success(function(data){
 
 			if (data.loggedin == true && data.data)
 				$scope.user = data.data;
@@ -38,7 +38,7 @@ function LoginCtrl($scope,$http, $state, toaster){
 		if (!valid)
 			return false;
 
-		$http.post("backend/angular.php?type=php&include=Login&function=loginFunction", $scope.form).success(function(data){
+		$http.post("backend/angular.php?type=php&include=LoginController&function=loginFunction", $scope.form).success(function(data){
 
 			if (data.errors)
 				toaster.pop({ type: 'error', title: "Error!", body: data.errors});
@@ -64,7 +64,7 @@ function SignupCtrl($scope,$http,toaster,$state){
 
 		$http({
 	    method: 'POST',
-	    url: "backend/angular.php?type=php&include=Signup&function=signupSQL",
+	    url: "backend/angular.php?type=php&include=SignupController&function=signupSQL",
 	    data: $scope.form,
 		}).success(function(data) {
 
@@ -97,7 +97,7 @@ function MyDashboardCtrl($scope, $http, toaster, $uibModal){
 
 		$http({
 	    method: 'POST',
-	    url: "backend/angular.php?type=php&include=Projects&function=newProject",
+	    url: "backend/angular.php?type=php&include=ProjectsController&function=newProject",
 	    data: $scope.form,
 		}).success(function(data) {
 
@@ -116,7 +116,7 @@ function MyDashboardCtrl($scope, $http, toaster, $uibModal){
 
 	$scope.refreshProjects = function(){
 
-		$http.get("backend/angular.php?type=php&include=Projects&function=listProjects").success(function(data){
+		$http.get("backend/angular.php?type=php&include=ProjectsController&function=listProjects").success(function(data){
 
 			$scope.projects = data.data;
 
@@ -132,7 +132,7 @@ function MyDashboardCtrl($scope, $http, toaster, $uibModal){
 
 	$scope.deactivateProject = function(projectid){
 
-		$http.get("backend/angular.php?type=php&include=Projects&function=deactivateProject&id="+projectid).success(function(data){
+		$http.get("backend/angular.php?type=php&include=ProjectsController&function=deactivateProject&id="+projectid).success(function(data){
 
 			if (data.errors)
 				toaster.pop({ type: 'error', title: "Error!", body: data.errors});
@@ -148,7 +148,7 @@ function MyDashboardCtrl($scope, $http, toaster, $uibModal){
 
 	$scope.pauseProject = function(projectid){
 
-		$http.get("backend/angular.php?type=php&include=Projects&function=pauseProject&id="+projectid).success(function(data){
+		$http.get("backend/angular.php?type=php&include=ProjectsController&function=pauseProject&id="+projectid).success(function(data){
 
 			if (data.errors)
 				toaster.pop({ type: 'error', title: "Error!", body: data.errors});
@@ -164,7 +164,7 @@ function MyDashboardCtrl($scope, $http, toaster, $uibModal){
 
 	$scope.startProject = function(projectid){
 
-		$http.get("backend/angular.php?type=php&include=Projects&function=startProject&id="+projectid).success(function(data){
+		$http.get("backend/angular.php?type=php&include=ProjectsController&function=startProject&id="+projectid).success(function(data){
 
 			if (data.errors)
 				toaster.pop({ type: 'error', title: "Error!", body: data.errors});
@@ -202,7 +202,7 @@ function MySettingsCtrl($scope,$http,toaster){
 
 		$http({
 	    method: 'POST',
-	    url: "backend/angular.php?type=php&include=Settings&function=changePassword",
+	    url: "backend/angular.php?type=php&include=SettingsController&function=changePassword",
 	    data: $scope.form,
 		}).success(function(data) {
 
@@ -222,7 +222,7 @@ function MySettingsCtrl($scope,$http,toaster){
 
 function LogoutCtrl($scope,$http,$state){
 
-	$http.get("backend/angular.php?type=php&include=Users&function=logout").success(function(){
+	$http.get("backend/angular.php?type=php&include=UsersController&function=logout").success(function(){
 
 		$scope.$emit("loggedIn");
 		$state.go("home");

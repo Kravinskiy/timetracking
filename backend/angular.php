@@ -15,12 +15,12 @@
   	if (!empty($_GET["function"]))
   		$_GET["function"] = \Classes\Utility\GeneralUtility::cleanString($_GET["function"]);
 
-  	$_GET["include"] = \Classes\Service\Security::checkInclude($_GET["include"]);
+  	$_GET["include"] = \Classes\Service\SecurityService::checkInclude($_GET["include"]);
 
 	if ($_GET["type"] == "view" && file_exists("pages/".$_GET["include"].".html"))
 		$handle = file_get_contents("pages/".$_GET["include"].".html");
-	elseif($_GET["type"] == "php" && file_exists("classes/".$_GET["include"] . ".php") && !empty($_GET["function"])){
-		$className = "Classes\\".$_GET["include"];
+	elseif($_GET["type"] == "php" && file_exists("classes/Controller/".$_GET["include"] . ".php") && !empty($_GET["function"])){
+		$className = "Classes\Controller\\".$_GET["include"];
 		$class = new $className;
 		$handle = $class->$_GET["function"]();
 

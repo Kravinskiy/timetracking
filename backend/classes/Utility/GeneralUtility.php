@@ -77,7 +77,7 @@ class GeneralUtility {
 	 * @param $string
 	 * @return mixed
 	 */
-	public function cleanString($string) {
+	public static function cleanString($string) {
 		$string = str_replace(' ', '-', $string);
 		return preg_replace('/[^A-Za-z0-9\/]/', '', $string);
 	}
