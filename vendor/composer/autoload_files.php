@@ -6,6 +6,5 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    '340e41047a65cc09b33e2ef5371f13b4' => $baseDir . '/backend/system/_defines.php',
-    '38e19f39d4368bd47ef34588a7aaeb74' => $baseDir . '/backend/functions.php',
+    'd5c87042cf891ae2b62d452d7054e91c' => $baseDir . '/backend/setup/_defines.php',
 );

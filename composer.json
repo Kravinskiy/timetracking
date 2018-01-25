@@ -8,7 +8,7 @@
       "Classes\\": "backend/classes/"
     },
     "files": [
-      "setup/_defines.php"
+      "backend/setup/_defines.php"
     ]
   }
 }
