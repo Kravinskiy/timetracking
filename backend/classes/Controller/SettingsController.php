@@ -13,7 +13,7 @@ class SettingsController
 {
 
     /**
-     * Changing the password of the current session
+     * Changing the password for the current session
      */
     public function changePassword()
     {
