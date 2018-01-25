@@ -17,10 +17,10 @@ class AuthService
      * @param $uuid
      * @param bool $id
      */
-    public function createNewAuthenticate($uuid){
+    public function createNewAuthenticate($uuid = null, $id = null){
 
         if (!$uuid) {
-            $uuid = UsersUtility::getCurrentUserData("uuid");
+            $uuid = UsersUtility::userDataExists("id", "uuid", true)["uuid"];
         }
 
         $_SESSION["authcode"] = sha1(random());
