@@ -74,7 +74,7 @@ class SecurityService{
 
         foreach (self::$myRoles as $role){
           if (in_array($role, self::$modules[$include]))
-            return GeneralUtility::clean($array[0]);
+            return GeneralUtility::cleanString($array[0]);
         }
 
       }
