@@ -74,7 +74,7 @@ class ProjectsController
             return array("data" => $data);
 
         } catch (\PDOException $e) {
-            sqlError($e);
+            GeneralUtility::sqlError($e);
         }
 
     }
@@ -97,7 +97,7 @@ class ProjectsController
 
 
         } catch (\PDOException $e) {
-            sqlError($e);
+            GeneralUtility::sqlError($e);
         }
 
     }
@@ -118,7 +118,7 @@ class ProjectsController
             $stmt->execute();
 
         } catch (\PDOException $e) {
-            sqlError($e);
+            GeneralUtility::sqlError($e);
         }
 
     }
@@ -144,7 +144,7 @@ class ProjectsController
                 return true;
 
         } catch (\PDOException $e) {
-            sqlError($e);
+            GeneralUtility::sqlError($e);
         }
 
         return false;
@@ -175,7 +175,7 @@ class ProjectsController
             $stmt->execute();
 
         } catch (\PDOException $e) {
-            sqlError($e);
+            GeneralUtility::sqlError($e);
         }
 
     }
@@ -204,7 +204,7 @@ class ProjectsController
             $stmt->execute();
 
         } catch (\PDOException $e) {
-            sqlError($e);
+            GeneralUtility::sqlError($e);
         }
 
     }
@@ -232,7 +232,7 @@ class ProjectsController
             $stmt->execute();
 
         } catch (\PDOException $e) {
-            sqlError($e);
+            GeneralUtility::sqlError($e);
         }
 
     }
