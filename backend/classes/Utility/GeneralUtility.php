@@ -89,9 +89,4 @@ class GeneralUtility
         return preg_replace('/[^A-Za-z0-9\/]/', '', $string);
     }
 
-    public static function test()
-    {
-        return "asd";
-    }
-
 }
