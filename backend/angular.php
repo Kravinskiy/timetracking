@@ -27,12 +27,12 @@ if (!empty($_GET["function"])) {
 }
 
 // If we resolve a view
-if ($_GET["type"] == "view" && file_exists("pages/" . $_GET["include"] . ".html")) {
+if ($_GET["type"] == "view" && file_exists("../view/html/" . $_GET["include"] . ".html")) {
 
     // Security procedure
     $_GET["include"] = \Classes\Service\SecurityService::checkInclude($_GET["include"]);
 
-    $handle = file_get_contents("pages/" . $_GET["include"] . ".html");
+    $handle = file_get_contents("../view/html/" . $_GET["include"] . ".html");
 
     // If we resolve a function
 } elseif ($_GET["type"] == "php" && !empty($_GET["function"])) {
