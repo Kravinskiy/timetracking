@@ -92,34 +92,6 @@ class UsersUtility
     }
 
     /**
-     * Update a user's data
-     *
-     * @param $what
-     * @param $to
-     */
-    public static function update($what, $to)
-    {
-
-        if (isset($_SESSION["uuid"])) {
-
-            $stmt = SqlConnectionService::connect()->prepare(sprintf("UPDATE users SET %s = ? WHERE uuid = ?",
-                $what));
-
-            try {
-
-                $stmt->bindParam(1, $to);
-                $stmt->bindValue(2, $_SESSION["uuid"]);
-                $stmt->execute();
-
-            } catch (\PDOException $e) {
-                GeneralUtility::sqlError($e);
-            }
-
-        }
-
-    }
-
-    /**
      * @param null $what
      * @return mixed|null
      */

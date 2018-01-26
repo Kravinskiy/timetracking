@@ -32,21 +32,14 @@ class SignupController
             if (strlen($_POST["password"]) < 5)
                 GeneralUtility::kill("Password must be at least 5 characters!");
 
-            $stmt = SqlConnectionService::connect()->prepare('INSERT INTO users (name, email, password, last_login) VALUES (?,?,?,NOW())');
+            $user = new User();
+            $newUser = $user->create($_POST["fullname"], $_POST["email"], $_POST["password"]);
 
-            try {
+            if ($newUser !== false) {
+				$authService = new AuthService();
+				$authService->createNewAuthenticate(false, $newUser);
+			}
 
-                $stmt->bindValue(1, $_POST['fullname'], \PDO::PARAM_STR);
-                $stmt->bindValue(2, $_POST['email'], \PDO::PARAM_STR);
-                $stmt->bindValue(3, sha1($_POST['password']), \PDO::PARAM_STR);
-                $stmt->execute();
-
-                $authService = new AuthService();
-                $authService->createNewAuthenticate(false, SqlConnectionService::connect()->lastInsertId());
-
-            } catch (\PDOException $e) {
-                GeneralUtility::sqlError($e->getMessage());
-            }
 
         }
 
