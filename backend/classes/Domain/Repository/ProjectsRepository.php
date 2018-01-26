@@ -1,6 +1,6 @@
 <?php
 
-namespace Classes\Modal\Repository;
+namespace Classes\Domain\Repository;
 
 /**
  * Class ProjectsRepository

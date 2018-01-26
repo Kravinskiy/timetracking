@@ -12,23 +12,6 @@ use Classes\Utility\GeneralUtility;
 class ProjectsService
 {
 
-	public function newProject($name, $uuid) {
-
-		$stmt = SqlConnectionService::connect()->prepare("INSERT INTO projects (name, uuid, created_at) VALUES (:name,:uuid,NOW())");
-
-		try {
-
-			$stmt->bindValue(":name", $name);
-			$stmt->bindValue(":uuid", $uuid);
-			$stmt->execute();
-
-
-		} catch (\PDOException $e) {
-			GeneralUtility::sqlError($e);
-		}
-
-	}
-
 	/**
 	 * Getting the status of a project
 	 *

@@ -2,6 +2,7 @@
 
 namespace Classes\Controller;
 
+use Classes\Domain\Modal\User;
 use Classes\Service\AuthService;
 use Classes\Utility\UsersUtility;
 
@@ -41,7 +42,8 @@ class UsersController
      */
     public function update($what, $to)
     {
-        UsersUtility::update($what, $to);
+    	$user = new User($_SESSION["uuid"]);
+        $user->update($what, $to);
 
         return;
     }

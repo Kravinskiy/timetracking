@@ -3,7 +3,8 @@
 
 namespace Classes\Controller;
 
-use Classes\Modal\Repository\ProjectsRepository;
+use Classes\Domain\Modal\Project;
+use Classes\Domain\Repository\ProjectsRepository;
 use Classes\Service\ProjectsService;
 use Classes\Service\SqlConnectionService;
 use Classes\Utility\GeneralUtility;
@@ -56,9 +57,9 @@ class ProjectsController
     {
 
         GeneralUtility::checkReqFields(array("name"), $_POST);
-        $this->projectService->newProject($_POST["name"], $_SESSION["uuid"]);
 
-
+        $project = new Project();
+        $project->create($_POST["name"], $_SESSION["uuid"]);
 
     }
 
