@@ -22,7 +22,7 @@ class GeneralUtility
         foreach ($array as $arr) {
 
             if (empty($where[$arr]))
-                kill("Some of the mandatory fields are empty!");
+                self::kill("Some of the mandatory fields are empty!");
 
         }
 
@@ -62,7 +62,7 @@ class GeneralUtility
     {
 
         error_log("SQL ERROR:" . $error);
-        GeneralUtility::kill("Error while processing the request, please try again later!" . $error);
+        self::kill("Error while processing the request, please try again later!" . $error);
 
     }
 
