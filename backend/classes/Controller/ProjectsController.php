@@ -3,6 +3,8 @@
 
 namespace Classes\Controller;
 
+use Classes\Modal\Repository\ProjectsRepository;
+use Classes\Service\ProjectsService;
 use Classes\Service\SqlConnectionService;
 use Classes\Utility\GeneralUtility;
 
@@ -13,7 +15,28 @@ use Classes\Utility\GeneralUtility;
 class ProjectsController
 {
 
-    /**
+	private $projectId = null;
+
+	/**
+	 * ProjectsController constructor.
+	 */
+	public function __construct()
+	{
+
+		$this->projectService = new ProjectsService();
+
+		if (empty($_GET["id"])) {
+			GeneralUtility::kill("Project id is required.");
+		} else {
+			$this->projectId = $_GET["id"];
+		}
+
+		if ($this->projectService->projectAccess($this->projectId, $_SESSION["uuid"]))
+			GeneralUtility::kill("Request denied.");
+
+	}
+
+	/**
      * Listing all the projects under a user
      *
      * @return array
@@ -21,61 +44,8 @@ class ProjectsController
     public function listProjects()
     {
 
-        $stmt = SqlConnectionService::connect()->prepare("SELECT projects.id as id, projects.name as name,to_char(projects.created_at, 'yyyy-mm-dd hh24:mi:ss') as created_at, projects.active as active, to_char(time_log.from, 'yyyy-mm-dd hh24:mi:ss') as timefrom,to_char(time_log.to, 'yyyy-mm-dd hh24:mi:ss') as timeto, to_char(NOW(), 'yyyy-mm-dd hh24:mi:ss') as now
-      FROM projects
-      LEFT JOIN time_log ON time_log.project_id = projects.id
-      WHERE projects.uuid = :uuid");
-
-        try {
-
-            $stmt->bindValue(":uuid", $_SESSION["uuid"]);
-            $stmt->execute();
-
-            $data = array();
-
-            while ($fetch = $stmt->fetch(\PDO::FETCH_ASSOC)) {
-
-                if (!isset($data[$fetch["id"]]))
-                    $data[$fetch["id"]] = array(
-                        "id" => $fetch["id"],
-                        "name" => $fetch["name"],
-                        "created_at" => $fetch["created_at"],
-                        "active" => $fetch["active"],
-                        "timelogs" => array(),
-                        "status" => false,
-                        "hours" => 0,
-                        "minutes" => 0
-                    );
-
-                if (!empty($fetch["timefrom"])) {
-
-                    if (empty($fetch["timeto"])) {
-                        $data[$fetch["id"]]["status"] = true;
-                        $fetch["timeto"] = $fetch["now"];
-                    }
-
-                    $time = strtotime($fetch["timeto"]) - strtotime($fetch["timefrom"]);
-                    $hours = 0;
-
-                    if ($time > 3600) {
-                        $hours = floor($time / 3600);
-                        $data[$fetch["id"]]["hours"] += $hours;
-                        $time -= 3600 * $hours;
-                    }
-
-                    $minutes = (floor($time / 60) > 0) ? floor($time / 60) : 0;
-                    $data[$fetch["id"]]["minutes"] += $minutes;
-
-                    array_push($data[$fetch["id"]]["timelogs"], array("from" => $fetch["timefrom"], "to" => $fetch["timeto"], "hours" => $hours, "minutes" => $minutes));
-
-                }
-            }
-
-            return array("data" => $data);
-
-        } catch (\PDOException $e) {
-            GeneralUtility::sqlError($e);
-        }
+		$data = ProjectsRepository::findByUser($_SESSION["uuid"]);
+		return array("data" => $data);
 
     }
 
@@ -86,154 +56,42 @@ class ProjectsController
     {
 
         GeneralUtility::checkReqFields(array("name"), $_POST);
-
-        $stmt = SqlConnectionService::connect()->prepare("INSERT INTO projects (name, uuid, created_at) VALUES (:name,:uuid,NOW())");
-
-        try {
-
-            $stmt->bindValue(":name", $_POST["name"]);
-            $stmt->bindValue(":uuid", $_SESSION["uuid"]);
-            $stmt->execute();
+        $this->projectService->newProject($_POST["name"], $_SESSION["uuid"]);
 
 
-        } catch (\PDOException $e) {
-            GeneralUtility::sqlError($e);
-        }
-
-    }
-
-    /**
-     * Getting the status of a project
-     *
-     * @param $projectid
-     */
-    public function getStatus($projectid)
-    {
-
-        $stmt = SqlConnectionService::connect()->prepare("SELECT 'from', 'to' FROM time_log WHERE project_id = :projectid ORDER BY id DESC");
-
-        try {
-
-            $stmt->bindValue(":projectid", $projectid);
-            $stmt->execute();
-
-        } catch (\PDOException $e) {
-            GeneralUtility::sqlError($e);
-        }
-
-    }
-
-    /**
-     * Checking if a user has access for the project
-     *
-     * @param $projectid
-     * @return bool
-     */
-    private static function projectAccess($projectid)
-    {
-
-        $stmt = SqlConnectionService::connect()->prepare("SELECT uuid FROM projects WHERE id = :projectid AND uuid = :uuid AND active = true");
-
-        try {
-
-            $stmt->bindValue(":projectid", $projectid);
-            $stmt->bindValue(":uuid", $_SESSION["uuid"]);
-            $stmt->execute();
-
-            if ($stmt->rowCount() > 0)
-                return true;
-
-        } catch (\PDOException $e) {
-            GeneralUtility::sqlError($e);
-        }
-
-        return false;
 
     }
 
     /**
      * Breaking the project
      *
-     * @param null $projectid
      */
-    public static function pauseProject($projectid = NULL)
+    public function pauseProject()
     {
 
-        if ($projectid == NULL && !empty($_GET["id"]))
-            $projectid = $_GET["id"];
-        elseif (empty($_GET["id"]))
-            GeneralUtility::kill("Project id is required.");
-
-        if (!self::projectAccess($projectid))
-            GeneralUtility::kill("Request denied.");
-
-        $stmt = SqlConnectionService::connect()->prepare('UPDATE time_log SET "to" = NOW() WHERE "to" IS NULL AND project_id = :projectid');
-
-        try {
-
-            $stmt->bindValue(":projectid", $projectid);
-            $stmt->execute();
-
-        } catch (\PDOException $e) {
-            GeneralUtility::sqlError($e);
-        }
+		$this->projectService->pauseProject($this->projectId);
 
     }
 
     /**
      * Starting the project
      *
-     * @param null $projectid
      */
-    public static function startProject($projectid = NULL)
+    public function startProject()
     {
 
-        if ($projectid == NULL && !empty($_GET["id"]))
-            $projectid = $_GET["id"];
-        elseif (empty($_GET["id"]))
-            GeneralUtility::kill("Project id is required.");
-
-        if (!self::projectAccess($projectid))
-            GeneralUtility::kill("Request denied.");
-
-        $stmt = SqlConnectionService::connect()->prepare('INSERT INTO time_log (project_id, "from") VALUES (:projectid, NOW())');
-
-        try {
-
-            $stmt->bindValue(":projectid", $projectid);
-            $stmt->execute();
-
-        } catch (\PDOException $e) {
-            GeneralUtility::sqlError($e);
-        }
+        $this->projectService->startProject($this->projectId);
 
     }
 
     /**
      * Disabling / deactivating the project
      *
-     * @param null $projectid
      */
-    public function deactivateProject($projectid = NULL)
+    public function deactivateProject()
     {
 
-        if ($projectid == NULL && !empty($_GET["id"]))
-            $projectid = $_GET["id"];
-        elseif (empty($_GET["id"]))
-            GeneralUtility::kill("Project id is required.");
-
-        self::pauseProject($projectid);
-
-        $stmt = SqlConnectionService::connect()->prepare("UPDATE projects SET active = false WHERE id = :projectid");
-
-        try {
-
-            $stmt->bindValue(":projectid", $projectid);
-            $stmt->execute();
-
-        } catch (\PDOException $e) {
-            GeneralUtility::sqlError($e);
-        }
+        $this->projectService->deactivateProject($this->projectId);
 
     }
 
