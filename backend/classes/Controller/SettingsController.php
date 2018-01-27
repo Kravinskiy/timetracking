@@ -2,8 +2,8 @@
 
 namespace Classes\Controller;
 
+use Classes\Domain\Modal\User;
 use Classes\Utility\GeneralUtility;
-use Classes\Utility\UsersUtility;
 
 /**
  * Class SettingsController
@@ -23,7 +23,8 @@ class SettingsController
         if ($_POST["password"] !== $_POST["password_again"])
             GeneralUtility::kill("The passwords don't match!");
 
-        UsersUtility::update("password", sha1($_POST["password"]));
+        $user = new User($_SESSION["uuid"]);
+        $user->update("password", sha1($_POST["password"]));
 
     }
 

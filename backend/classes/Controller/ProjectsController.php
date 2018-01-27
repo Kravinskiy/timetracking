@@ -17,6 +17,7 @@ class ProjectsController
 {
 
 	private $projectId = null;
+	private $projectService;
 
 	/**
 	 * ProjectsController constructor.
@@ -26,14 +27,14 @@ class ProjectsController
 
 		$this->projectService = new ProjectsService();
 
-		if (empty($_GET["id"])) {
-			GeneralUtility::kill("Project id is required.");
-		} else {
-			$this->projectId = $_GET["id"];
-		}
+		if (!empty($_GET["id"])) {
+            $this->projectId = $_GET["id"];
 
-		if ($this->projectService->projectAccess($this->projectId, $_SESSION["uuid"]))
-			GeneralUtility::kill("Request denied.");
+            if (!$this->projectService->projectAccess($this->projectId, $_SESSION["uuid"])) {
+                GeneralUtility::kill("Request denied.");
+            }
+        }
+
 
 	}
 
@@ -69,9 +70,8 @@ class ProjectsController
      */
     public function pauseProject()
     {
-
+        $this->requireProjectId();
 		$this->projectService->pauseProject($this->projectId);
-
     }
 
     /**
@@ -80,7 +80,7 @@ class ProjectsController
      */
     public function startProject()
     {
-
+        $this->requireProjectId();
         $this->projectService->startProject($this->projectId);
 
     }
@@ -91,9 +91,18 @@ class ProjectsController
      */
     public function deactivateProject()
     {
-
+        $this->requireProjectId();
         $this->projectService->deactivateProject($this->projectId);
 
+    }
+
+    /**
+     * Requiring the project id
+     */
+    protected function requireProjectId() {
+        if (empty($this->projectId) || !is_numeric($this->projectId)) {
+            GeneralUtility::kill("Project id is required");
+        }
     }
 
 }

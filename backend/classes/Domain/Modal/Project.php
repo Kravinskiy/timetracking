@@ -1,6 +1,8 @@
 <?php
 
 namespace Classes\Domain\Modal;
+use Classes\Service\SqlConnectionService;
+use Classes\Utility\GeneralUtility;
 
 /**
  * Class Project

@@ -2,6 +2,7 @@
 
 namespace Classes\Service;
 
+use Classes\Domain\Modal\User;
 use Classes\Utility\GeneralUtility;
 use Classes\Utility\UsersUtility;
 
@@ -28,7 +29,8 @@ class AuthService
         $_SESSION["authcode"] = sha1(GeneralUtility::randomString());
         $_SESSION["uuid"] = $uuid;
 
-        UsersUtility::update("authcode", $_SESSION["authcode"]);
+        $user = new User($uuid);
+        $user->update("authcode", $_SESSION["authcode"]);
 
 
     }

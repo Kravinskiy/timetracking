@@ -11,7 +11,7 @@ function config($stateProvider, $urlRouterProvider, $locationProvider, $ocLazyLo
                     {
                         serie: true,
                         name: 'toaster',
-                        files: ['view/js/toastr.min.js', 'view/css/toastr.min.css']
+                        files: ['resources/js/toastr.min.js', 'resources/css/toastr.min.css']
                     }
                 ])
             }
@@ -25,7 +25,7 @@ function config($stateProvider, $urlRouterProvider, $locationProvider, $ocLazyLo
                 return $ocLazyLoad.load([{
                     serie: true,
                     name: 'toaster',
-                    files: ['view/js/toastr.min.js', 'view/css/toastr.min.css']
+                    files: ['resources/js/toastr.min.js', 'resources/css/toastr.min.css']
                 }
                 ])
             }
@@ -40,7 +40,7 @@ function config($stateProvider, $urlRouterProvider, $locationProvider, $ocLazyLo
                     {
                         serie: true,
                         name: 'toaster',
-                        files: ['view/js/toastr.min.js', 'view/css/toastr.min.css']
+                        files: ['resources/js/toastr.min.js', 'resources/css/toastr.min.css']
                     }
                 ])
             }
@@ -55,7 +55,7 @@ function config($stateProvider, $urlRouterProvider, $locationProvider, $ocLazyLo
                     {
                         serie: true,
                         name: 'toaster',
-                        files: ['view/js/toastr.min.js', 'view/css/toastr.min.css']
+                        files: ['resources/js/toastr.min.js', 'resources/css/toastr.min.css']
                     }
                 ])
             }

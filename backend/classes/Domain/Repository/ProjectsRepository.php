@@ -1,6 +1,8 @@
 <?php
 
 namespace Classes\Domain\Repository;
+use Classes\Service\SqlConnectionService;
+use Classes\Utility\GeneralUtility;
 
 /**
  * Class ProjectsRepository

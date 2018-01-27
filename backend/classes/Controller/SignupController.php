@@ -2,8 +2,8 @@
 
 namespace Classes\Controller;
 
+use Classes\Domain\Modal\User;
 use Classes\Service\AuthService;
-use Classes\Service\SqlConnectionService;
 use Classes\Utility\GeneralUtility;
 use Classes\Utility\UsersUtility;
 
