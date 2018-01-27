@@ -36,8 +36,8 @@ class SignupController
             $newUser = $user->create($_POST["fullname"], $_POST["email"], $_POST["password"]);
 
             if ($newUser !== false) {
-				$authService = new AuthService();
-				$authService->createNewAuthenticate(false, $newUser);
+                $authService = new AuthService();
+                $authService->createNewAuthenticate(false, $newUser);
 			}
 
 
