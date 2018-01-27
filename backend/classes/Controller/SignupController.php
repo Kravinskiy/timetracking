@@ -38,7 +38,7 @@ class SignupController
             if ($newUser !== false) {
                 $authService = new AuthService();
                 $authService->createNewAuthenticate(false, $newUser);
-			}
+            }
 
 
         }
